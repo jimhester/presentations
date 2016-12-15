@@ -1,0 +1,404 @@
+---
+title: "Lintr And Covr"
+author: Jim Hester
+date: August 26th, 2015
+output:
+  ioslides_presentation:
+    widescreen: true
+vignette: >
+  %\VignetteIndexEntry{Covr Exercises}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Who Is Jim Hester? ##
+
+  - [Bioconductor](https://www.bioconductor.org) Core Member - Remote
+  - Previous
+    - [Explorys](www.explorys.com) - Data Scientist - Cleveland
+    - [Cleveland Clinic](www.ccf.org) - Bioinformatician - Cleveland
+  - R User - 2008
+  - Contributor - [devtools][], [ggplot2][], [dplyr][], [rmarkdown][], [plyr][], [knitr][],
+    [tidyr][], [roxygen][], [httr][], [ggvis][], [markdown][]
+  - Package Author - [covr][], [lintr][], [rex][], [gmailr][], [knitrBootstrap][], ...
+
+[covr]: https://github.com/jimhester/covr
+[dplyr]: https://github.com/hadley/dplyr/pulls?q=is%3Apr+author%3Ajimhester+is%3Aclosed
+[ggplot2]: https://github.com/hadley/ggplot2/pulls?q=is%3Apr+author%3Ajimhester+is%3Aclosed
+[ggvis]: https://github.com/rstudio/ggvis/pulls?q=is%3Apr+author%3Ajimhester+is%3Aclosed
+[gmailr]: https://github.com/jimhester/gmailr
+[httr]: https://github.com/hadley/httr/pulls?q=is%3Apr+author%3Ajimhester+is%3Aclosed
+[knitr]: https://github.com/yihui/knitr/pulls?q=is%3Apr+author%3Ajimhester+is%3Aclosed
+[lintr]: https://github.com/jimhester/lintr
+[primerTree]: https://github.com/jimhester/primerTree
+[rex]: https://github.com/jimhester/rex
+[tidyr]: https://github.com/hadley/tidyr/pulls?q=is%3Apr+author%3Ajimhester+is%3Aclosed
+[rmarkdown]: https://github.com/rstudio/rmarkdown/pulls?q=is%3Apr+author%3Ajimhester+is%3Aclosed
+[plyr]: https://github.com/hadley/plyr/pulls?q=is%3Apr+author%3Ajimhester+is%3Aclosed
+[markdown]: https://github.com/rstudio/markdown
+[devtools]: https://github.com/hadley/devtools/pulls?q=is%3Apr+author%3Ajimhester+is%3Aclosed
+[roxygen]: https://github.com/klutometis/roxygen/pulls?q=is%3Apr+author%3Ajimhester+is%3Aclosed
+[knitrBootstrap]: https://github.com/jimhester/knitrBootstrap
+
+----
+
+- [lintr][] - Static Code Analysis / Linting
+- [covr][] - Code Coverage Analysis / Reporting
+
+## Lintr Motivation
+
+  - Other Languages
+    - [flake8](https://pypi.python.org/pypi/pyflakes), [pylint](http://en.wikipedia.org/wiki/Pylint), [PerlTidy](http://en.wikipedia.org/wiki/PerlTidy), [jshint](http://jshint.org/docs/), [clang](http://clang.llvm.org/), [lint](http://www.unix.com/man-page/FreeBSD/1/lint)
+
+  - On The Fly
+    - Vim - [Syntastic](https://github.com/scrooloose/syntastic)
+    - Emacs - [flycheck](https://github.com/flycheck/flycheck)
+    - Sublime Text - [SublimeLinter](http://www.sublimelinter.com/)
+
+  - Style / Syntax
+    - Own/others contributions (pull requests)
+    - Hadley style (<http://r-pkgs.had.co.nz/style.html>)
+
+  - Synergy
+    - Use case for [rex](https://github.com/kevinushey/rex)
+
+
+## Existing Alternatives
+
+  - [lint](https://github.com/halpo/lint) - *Andrew Redd*
+    - Stagnated development, Feb 5, 2013
+    - Slow performance?
+    - Limited set of linters
+
+  - [svTools](http://cran.r-project.org/web/packages/svTools/index.html) - *Philippe Grosjean, Romain Francois*
+    - Major development 2010, last bugfix release Mar 2014
+    - many features un-related to linting
+    - linting implementation wraps codetools functions
+
+  - [codetools](http://cran.r-project.org/web/packages/codetools/index.html) - *Luke Tierney*
+    - Used internally by R CMD check
+    - Checks for possible usage errors, not style
+
+  - [shinyapps](https://github.com/rstudio/shinyapps/issues/103) - *Kevin Ushey*
+    - Shiny app website only
+
+
+## Demo #
+  - R terminal
+  - Vim
+  - Emacs
+  - Sublime Text
+  - RStudio
+  - Travis-CI
+
+## Configuration #
+  - Some linters have arguments
+    - `line_length_linter(120)`
+  - Arguments to lint function
+  - Per project configuration file
+  - Exclusions
+    - Whole files
+    - Line
+    - Ranges
+    - In-source and outside
+  - camelCase vs snake_case vs ambiguous.case
+
+## Implementation #
+  - `base::parse()`
+    - Parse errors -> errors
+  - `utils::getParseData()`
+
+```{r}
+sf <- srcfile("bad.R")
+p <- try(parse(text=readLines(sf$filename),
+               srcfile=sf,
+               keep.source = TRUE))
+(pd <- getParseData(sf))
+```
+
+## Example linter #
+```r
+assignment_linter <- function(source_file) {
+  lapply(ids_with_token(source_file, "EQ_ASSIGN"),
+    function(id) {
+      parsed <- source_file$parsed_content[id, ]
+      Lint(
+        filename = source_file$filename,
+        line_number = parsed$line1,
+        column_number = parsed$col1,
+        type = "style",
+        message = "Use <-, not =, for assignment.",
+        line = source_file$lines[parsed$line1]
+        )
+    })
+}
+```
+
+## Example linter ##
+```r
+trailing_whitespace_linter <- function(source_file) {
+  res <- re_matches(source_file$lines,
+    rex(capture(name = "space", some_of(" ", regex("\\t"))), or(newline, end)),
+    global = TRUE,
+    locations = TRUE)
+
+  lapply(seq_along(source_file$lines), function(itr) {
+
+      mapply(
+        FUN = function(start, end) {
+          if (is.na(start)) {
+            return()
+          }
+          line_number <- names(source_file$lines)[itr]
+          Lint(
+            filename = source_file$filename,
+            line_number = line_number,
+            column_number = start,
+            type = "style",
+            message = "Trailing whitespace is superfluous.",
+            line = source_file$lines[as.character(line_number)],
+            ranges = list(c(start, end)),
+            linter = "trailing_whitespace_linter"
+            )
+        },
+        start = res[[itr]]$space.start,
+        end = res[[itr]]$space.end,
+        SIMPLIFY = FALSE
+        )
+  })
+}
+```
+
+## Implementation #
+
+  - linting speed an issue
+    - ~ 20 seconds to lint lintr, 60 files
+  - Caching
+    - Experimental
+    - Per expression
+    - Cache dependencies still a work in progress
+
+## Future Directions #
+
+  - Bioconductor linters
+    - Very close to hadley style
+    - camelCase
+    - no spaces in argument lists (a=b)
+  - Google Style
+  - Improve Performance
+    - C/C++ helper utility functions?
+  - Automatic reformatting/tidying ([formatR](http://cran.r-project.org/web/packages/formatR/index.html))
+    - False positives
+
+## Lintr #
+
+  - Integrated with common editors
+  - Works with both packages and scripts
+  - Style, syntax and potential usage errors
+  - Easy to understand output
+  - Configurable
+  - Lintr questions?
+
+# Covr #
+## What is it? #
+
+  - Test Coverage - How much of my code is run by tests?
+  - Mid-December 2014
+  - Test/Example/Vignette Coverage
+    - R Code
+    - Compiled C/C++/Fortran Code
+
+## Motivation ##
+
+  - What tests are needed?
+  - Gauge of package robustness - [Shields](http://shields.io/) / Badges
+  - Other languages coverage tools
+    - [gcov](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html)
+    - [JCov](https://wiki.openjdk.java.net/display/CodeTools/jcov)
+    - [coverage](https://pypi.python.org/pypi/coverage)
+    - [simplecov](https://rubygems.org/gems/simplecov)
+  - Services
+    - [coveralls.io](https://coveralls.io/)
+    - [codecov.io](https://codecov.io/)
+
+## Existing Alternatives ##
+
+  - [R-coverage](http://r2d2.quartzbio.com/posts/r-coverage-docker.html) by Karl Forner
+    - Modify R source and add instrumentation
+    - Requires patching and recompiling R source
+  - [testCoverage](https://github.com/MangoTheCat/testCoverage) by Tom Taverner, Chris Campbell, Suchen Jin
+    - Alternate parser
+    - Complicated implementation
+    - No S4 support
+    - Limited output formats
+    - Challenging usage instructions
+
+## Demo ##
+
+  - R terminal
+  - Shiny application
+  - Coveralls.io
+  - Codecov.io
+
+## Configuration ##
+
+  - Exclusions (Cheating!)
+    - Whole files
+    - By Line
+    - Ranges
+    - In-source annotations and `exclusion` argument.
+
+# Implementation #
+## R's Abstract Syntax Tree ##
+
+  - [How it works](https://github.com/jimhester/covr/blob/master/vignettes/how_it_works.Rmd) vignette
+  - Walk the Abstract Syntax Tree
+    - If a call with srcref
+      - Add a trace function before call
+      - Perform the call
+
+----
+
+```{r eval = FALSE}
+fun <- function(x, ...) {
+  recurse <- function(y) {
+    lapply(y, fun, f = f, ...)
+  }
+
+  if (is.atomic(x) || is.name(x)) {
+  } else if (is.call(x)) {
+    as.call(recurse(x))
+  } else if (is.function(x)) {
+    formals(x) <- fun(formals(x), ...)
+    body(x) <- fun(body(x), ...)
+    x
+  } else if (is.pairlist(x)) {
+    as.pairlist(recurse(x))
+  } else if (is.expression(x)) {
+    as.expression(recurse(x))
+  } else if (is.list(x)) {
+    recurse(x)
+  } else {
+    stop("Unknown language class: ", paste(class(x), collapse = "/"),
+      call. = FALSE)
+  }
+}
+```
+
+## Modify Calls ##
+
+  - How to insert function without changing output?
+  - Braces evaluate expressions, return result of last
+
+```{r}
+identical({ 1 + 2; 3 + 4 }, `{`(1 + 2, 3 + 4))
+```
+
+```{r, eval = FALSE}
+`{`(count(), as.call(recurse(x)))
+```
+
+## Source References ##
+
+  - Where in source a call is from?
+  - srcref
+    - `option(keep.source = TRUE)`
+    - srcref attribute attached to each call
+
+----
+
+```{r}
+f1 <- function(x) {
+  x <- x + 1
+  y <- x
+  y
+}
+
+covr:::trace_calls(f1)
+```
+
+## Replacing functions ##
+
+  - Replace all references with modified versions.
+  - `testthat::with_mock()`
+    - C function replaces function pointer
+    - stores original definition (reversible)
+
+## S4 Methods ##
+
+  - Normal functions defined directly in package namespace
+  - S4 methods are defined in an environment based on their generic
+
+```{r eval = FALSE}
+replacements_S4 <- function(env) {
+  generics <- getGenerics(env)
+
+  unlist(recursive = FALSE,
+    Map(generics@.Data, generics@package, USE.NAMES = FALSE,
+      f = function(name, package) {
+      what <- methodsPackageMetaName("T", paste(name, package, sep = ":"))
+
+      table <- get(what, envir = env)
+
+      lapply(ls(table, all.names = TRUE), replacement, env = table)
+    })
+  )
+}
+```
+
+## Compiled Code ##
+
+  - Gcov
+    - built into gcc and clang
+      - `-fprofile-arcs -ftest-coverage`
+      - `-O0`
+    - Need to override default and package Makevars
+      - `PKG_CFLAGS` puts optimization _before_ default `-O2`
+    - Temporarily point to different global Makevars. (retain `~/R/Makevars` values)
+    - No results until process terminated
+      - Call R subprocess
+
+## Running Tests ##
+
+  - `base::source2` on `tests/*.[Rr]`
+  - Test framework agnostic
+
+## Running Vignettes ##
+
+  - `knitr::knit(tangle = TRUE)` # generate R script
+  - Run with `base::source2`
+
+## Running Examples ##
+
+  - tools:::.createExdotR # generate R script from `.Rd`
+  - script massaged to use temp directory and not quit.
+
+## Coverage Services ##
+
+  - Track coverage over time
+  - Report on coverage drops from contributions.
+    - Coveralls.io
+    - Codecov.io
+
+  - Expect a JSON file
+    - coverage per line
+    - source code per line
+  - Travis CI
+    - Travis Job ID
+
+## Covr Usage / Shields ##
+
+  - Designed for [README.md](https://github.com/jimhester/covr/blob/master/README.md) (GitHub)
+  - Simple indicator of test breadth
+  - Currently used in nearly [200 projects on GitHub](https://github.com/search?l=yaml&p=1&q=in%3Afile+.travis.yml+jimhester%2Fcovr&ref=simplesearch&type=Code&utf8=%E2%9C%93)
+    - https://github.com/Rdatatable/data.table
+    - https://github.com/yihui/knitr
+    - https://github.com/hadley/testthat
+  - Since Mid-June Bioconductor Packages ~ 328 with unit tests
+    - https://codecov.io/github/Bioconductor-mirror
+    - Package landing pages e.g (<http://bioconductor.org/packages/SummarizedExperiment/>)
+
+## Future ##
+
+  - Ideas?
+  - Comments / Questions?
