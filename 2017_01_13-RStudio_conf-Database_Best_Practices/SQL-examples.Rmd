@@ -4,7 +4,8 @@ output: html_notebook
 ---
 
 ```{r setup, echo = FALSE}
-con <- DBI::dbConnect(odbc::odbc(), "PostgreSQL")
+library(DBI)
+con <- dbConnect(odbc::odbc(), "PostgreSQL")
 knitr::opts_chunk$set(connection = 'con')
 ```
 
@@ -24,8 +25,7 @@ SELECT * FROM
 WHERE "wind speed" > 10
 ```
 ```{r}
-sql <- 'SELECT * FROM 
-  (SELECT month, AVG(wind_speed) AS "wind speed"
+sql <- 'SELECT * FROM   (SELECT month, AVG(wind_speed) AS "wind speed"
     FROM weather
     GROUP BY month
     ORDER BY month) AS grouped
