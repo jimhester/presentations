@@ -124,6 +124,8 @@ dbFetch(iris_result)
 dbClearResult(iris_result); dbDisconnect(con)
 ```
 
+## Demo
+
 ## [Pool](https://github.com/rstudio/pool#readme)
 
 - General Object Pooling, reuse objects from pool
@@ -181,13 +183,14 @@ shinyApp(ui, server)
 
 ## Generic Connections Tab
  - Like sparklyr tab in RStudio IDE 1.0
- - Setup connections, Dialog
+ - Connections Dialog - Easy connection creation
+ - Re-establish previously used connections
  - View available Drivers / Data Source Names (DSN)
  - View Tables / Schemas
  - Will be included in RStudio IDE 1.1
 
 ## RStudio Server Pro - Bundled ODBC Drivers
- - Easy setup for a wide variety of DB
+ - Easy setup for a wide variety of DB (50+)
  - Improved performance
  - Improved error messaging
  - Kerberos support
