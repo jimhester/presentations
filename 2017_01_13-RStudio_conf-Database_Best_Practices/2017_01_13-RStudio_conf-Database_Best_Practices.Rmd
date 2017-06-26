@@ -194,7 +194,7 @@ shinyApp(ui, server)
  - Improved performance
  - Improved error messaging
  - Kerberos support
- 
+
 ---
 
 ### [DBI](https://cran.r-project.org/package=DBI) 
