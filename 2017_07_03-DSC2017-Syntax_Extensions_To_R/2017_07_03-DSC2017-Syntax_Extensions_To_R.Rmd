@@ -65,6 +65,7 @@ g("1 + 1 = {1 + 1}")
   - No explicit typing
   - Implicitly documented
   - Maintain locality
+  
 # [Unary Specials](https://github.com/wch/r-source/compare/trunk...jimhester:feature-unary_operators)
 
 ##Proposed Syntax

@@ -531,9 +531,10 @@ value &lt;-<span class="st"> &quot;foo&quot;</span>
 <ul>
 <li>No explicit typing</li>
 <li>Implicitly documented</li>
-<li>Maintain locality # <a href="https://github.com/wch/r-source/compare/trunk...jimhester:feature-unary_operators">Unary Specials</a></li>
+<li>Maintain locality</li>
 </ul>
-</section><section id="proposed-syntax-2" class="slide level2">
+</section></section>
+<section><section id="unary-specials" class="titleslide slide level1"><h1><a href="https://github.com/wch/r-source/compare/trunk...jimhester:feature-unary_operators">Unary Specials</a></h1></section><section id="proposed-syntax-2" class="slide level2">
 <h2>Proposed Syntax</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">`</span><span class="dt">%chr%</span><span class="st">`</span> &lt;-<span class="st"> </span>as.character
 
@@ -596,16 +597,16 @@ sum</code></pre></div>
 <section><section id="native-pipe-operator" class="titleslide slide level1"><h1><a href="https://github.com/wch/r-source/compare/trunk...jimhester:feature-pipe_operator">Native pipe operator</a></h1></section><section id="example---sh" class="slide level2">
 <h2>Example - sh</h2>
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="fu">ps</span> aux <span class="kw">|</span> <span class="fu">grep</span> -w R <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span> <span class="kw">|</span> <span class="fu">head</span></code></pre></div>
-<pre><code>## 60796
+<pre><code>## 80198
+## 80178
+## 80197
+## 80196
 ## 89034
 ## 74567
 ## 70318
 ## 70110
 ## 59799
-## 4997
-## 73808
-## 58578
-## 60818</code></pre>
+## 73808</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(magrittr)
 fail &lt;-<span class="st"> </span><span class="cf">function</span>(...) <span class="kw">stop</span>(<span class="st">&quot;fail&quot;</span>)
 mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lapply</span>(fail) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unlist</span>()</code></pre></div>
@@ -918,7 +919,7 @@ y <span class="op">=</span> yrange(<span class="dv">3</span>)
 <span class="co"># Within a loop</span>
 <span class="cf">for</span> i <span class="kw">in</span> yrange(<span class="dv">3</span>):
     <span class="bu">print</span>(i)</code></pre></div>
-<pre><code>## &lt;generator object yrange at 0x10915eaa0&gt;
+<pre><code>## &lt;generator object yrange at 0x10a576aa0&gt;
 ## 0
 ## 1
 ## 2
