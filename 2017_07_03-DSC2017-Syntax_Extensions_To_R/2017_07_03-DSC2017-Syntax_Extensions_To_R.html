@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="2017_07_03-DSC2017-Syntax_Extensions_To_R_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="2017_07_03-DSC2017-Syntax_Extensions_To_R_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section><section id="r-syntax-extensions" class="titleslide slide level1"><h1>R Syntax Extensions</h1></section><section class="slide level2">
+
+<ul>
+<li>Most proposals have working implementations (click links)</li>
+<li>Examples in other languages</li>
+<li>R Proposal</li>
+</ul>
+</section></section>
+<section><section id="type-annotations" class="titleslide slide level1"><h1><a href="https://cran.r-project.org/package=types">Type Annotations</a></h1></section><section id="example---python-3" class="slide level2">
+<h2>Example - Python 3</h2>
+<pre class="python3"><code>def greeting(name: str) -&gt; str:
+    hi: str = &#39;Hello &#39;
+    return hi + name
+
+print(greeting(&quot;Jim&quot;))</code></pre>
+</section><section id="proposed-syntax" class="slide level2">
+<h2>Proposed Syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;types&quot;)</span>
+<span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(types))
+greeting &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">name =</span> ? str) {
+  hi &lt;-<span class="st"> &quot;Hello &quot;</span> ? str
+  <span class="kw">paste0</span>(hi, name)
+} ? str
+<span class="kw">greeting</span>(<span class="st">&quot;Jim&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Hello Jim&quot;</code></pre>
+<p><a href="https://github.com/jimhester/typeCheck">typeCheck</a> - Add runtime checks based on type annotations. <a href="http://mypy-lang.org/">mypy</a> Static type checker for Python.</p>
+</section></section>
+<section><section id="string-interpolation" class="titleslide slide level1"><h1><a href="https://github.com/tidyverse/glue">String interpolation</a></h1></section><section id="example---bash" class="slide level2">
+<h2>Example - Bash</h2>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">value=</span><span class="st">&quot;foo&quot;</span>
+<span class="bu">echo</span> <span class="st">&quot;value = </span><span class="va">$value</span><span class="st">&quot;</span></code></pre></div>
+<pre><code>## value = foo</code></pre>
+</section><section id="proposed-syntax-1" class="slide level2">
+<h2>Proposed Syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#install.package(&quot;glue&quot;)</span>
+g &lt;-<span class="st"> </span>glue<span class="op">::</span>glue
+value &lt;-<span class="st"> &quot;foo&quot;</span>
+<span class="kw">g</span>(<span class="st">&quot;value = {value}&quot;</span>)</code></pre></div>
+<pre><code>## value = foo</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">g</span>(<span class="st">&quot;1 + 1 = {1 + 1}&quot;</span>)</code></pre></div>
+<pre><code>## 1 + 1 = 2</code></pre>
+</section><section id="vs-sprintf" class="slide level2">
+<h2>Vs <code>sprintf()</code></h2>
+<ul>
+<li>No explicit typing</li>
+<li>Implicitly documented</li>
+<li>Maintain locality # <a href="https://github.com/wch/r-source/compare/trunk...jimhester:feature-unary_operators">Unary Specials</a></li>
+</ul>
+</section><section id="proposed-syntax-2" class="slide level2">
+<h2>Proposed Syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">`</span><span class="dt">%chr%</span><span class="st">`</span> &lt;-<span class="st"> </span>as.character
+
+<span class="op">%chr%</span><span class="st"> </span><span class="dv">1</span></code></pre></div>
+<pre><code>## [1] &quot;1&quot;</code></pre>
+</section><section id="advantages" class="slide level2">
+<h2>Advantages</h2>
+<ul>
+<li>Allows user defined <code>%foo%</code> in unary contexts.</li>
+<li>Most useful for operator that make sense in binary and unary contexts.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;magrittr&quot;</span>)
+sum &lt;-<span class="st"> </span>. <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>head <span class="op">%&gt;%</span>
+<span class="st">  </span>summary
+sum</code></pre></div>
+<pre><code>## Functional sequence with the following components:
+## 
+##  1. head(.)
+##  2. summary(.)
+## 
+## Use &#39;functions&#39; to extract the individual functions.</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github(&quot;jimhester/magrittr@unary&quot;)</span>
+sum &lt;-<span class="st"> </span><span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>head <span class="op">%&gt;%</span>
+<span class="st">  </span>summary
+sum</code></pre></div>
+<pre><code>## Functional sequence with the following components:
+## 
+##  1. head(.)
+##  2. summary(.)
+## 
+## Use &#39;functions&#39; to extract the individual functions.</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">`</span><span class="dt">%g%</span><span class="st">`</span> &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) {
+  env &lt;-<span class="st"> </span><span class="kw">parent.frame</span>()
+  <span class="cf">if</span> (<span class="kw">missing</span>(y)) {
+    <span class="kw">eval</span>(<span class="kw">bquote</span>(glue<span class="op">::</span><span class="kw">glue</span>(.(x), <span class="dt">.envir =</span> env)))
+  } <span class="cf">else</span> {
+    <span class="kw">eval</span>(<span class="kw">bquote</span>(glue<span class="op">::</span><span class="kw">glue_data</span>(x, .(y), <span class="dt">.envir =</span> env)))
+  }
+}</code></pre></div>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">10</span>
+<span class="op">%g%</span><span class="st"> &quot;x = {x}&quot;</span></code></pre></div>
+<pre><code>## x = 10</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw">rownames</span>(mtcars)
+<span class="kw">head</span>(mtcars) <span class="op">%g%</span><span class="st"> &quot;{name} has {hp} hp&quot;</span></code></pre></div>
+<pre><code>## Mazda RX4 has 110 hp
+## Mazda RX4 Wag has 110 hp
+## Datsun 710 has 93 hp
+## Hornet 4 Drive has 110 hp
+## Hornet Sportabout has 175 hp
+## Valiant has 105 hp</code></pre>
+</section></section>
+<section><section id="native-pipe-operator" class="titleslide slide level1"><h1><a href="https://github.com/wch/r-source/compare/trunk...jimhester:feature-pipe_operator">Native pipe operator</a></h1></section><section id="example---sh" class="slide level2">
+<h2>Example - sh</h2>
+<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="fu">ps</span> aux <span class="kw">|</span> <span class="fu">grep</span> -w R <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span> <span class="kw">|</span> <span class="fu">head</span></code></pre></div>
+<pre><code>## 60796
+## 89034
+## 74567
+## 70318
+## 70110
+## 59799
+## 4997
+## 73808
+## 58578
+## 60818</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(magrittr)
+fail &lt;-<span class="st"> </span><span class="cf">function</span>(...) <span class="kw">stop</span>(<span class="st">&quot;fail&quot;</span>)
+mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lapply</span>(fail) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unlist</span>()</code></pre></div>
+<pre><code>## Error in FUN(X[[i]], ...): fail</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">traceback</span>()</code></pre></div>
+<pre><code>## No traceback available</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#&gt; 14: stop(&quot;fail&quot;) at #1</span>
+<span class="co">#&gt; 13: FUN(X[[i]], ...)</span>
+<span class="co">#&gt; 12: lapply(., fail)</span>
+<span class="co">#&gt; 11: function_list[[1L]](value)</span>
+<span class="co">#&gt; 10: unlist(.)</span>
+<span class="co">#&gt; 9: function_list[[1L]](value)</span>
+<span class="co">#&gt; 8: freduce(value, `_function_list`)</span>
+<span class="co">#&gt; 7: Recall(function_list[[1L]](value), function_list[-1L])</span>
+<span class="co">#&gt; 6: freduce(value, `_function_list`)</span>
+<span class="co">#&gt; 5: `_fseq`(`_lhs`)</span>
+<span class="co">#&gt; 4: eval(quote(`_fseq`(`_lhs`)), env, env)</span>
+<span class="co">#&gt; 3: eval(quote(`_fseq`(`_lhs`)), env, env)</span>
+<span class="co">#&gt; 2: withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))</span>
+<span class="co">#&gt; 1: mtcars %&gt;% lapply(fail) %&gt;% unlist()</span></code></pre></div>
+</section><section id="proposed-syntax-3" class="slide level2">
+<h2>Proposed Syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span>head</code></pre></div>
+<pre><code>## Error: The pipe operator requires a function call as RHS</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">head</span>()</code></pre></div>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+##                                name
+## Mazda RX4                 Mazda RX4
+## Mazda RX4 Wag         Mazda RX4 Wag
+## Datsun 710               Datsun 710
+## Hornet 4 Drive       Hornet 4 Drive
+## Hornet Sportabout Hornet Sportabout
+## Valiant                     Valiant</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">subset</span>(cyl <span class="op">==</span><span class="st"> </span><span class="dv">4</span>) <span class="op">&gt;</span><span class="er">&gt;</span>
+<span class="st">  </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp, <span class="dt">data =</span> _)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = mpg ~ disp, data = subset(mtcars, cyl == 4))
+## 
+## Coefficients:
+## (Intercept)         disp  
+##     40.8720      -0.1351</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quote</span>(mtcars <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">subset</span>(cyl <span class="op">==</span><span class="st"> </span><span class="dv">4</span>) <span class="op">&gt;</span><span class="er">&gt;</span>
+<span class="st">  </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp, <span class="dt">data =</span> _))</code></pre></div>
+<pre><code>## lm(mpg ~ disp, data = subset(mtcars, cyl == 4))</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">lapply</span>(fail) <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">unlist</span>()</code></pre></div>
+<pre><code>## Error in FUN(X[[i]], ...): fail</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">traceback</span>()</code></pre></div>
+<pre><code>## No traceback available</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#&gt; 4: stop(&quot;fail&quot;) at #1</span>
+<span class="co">#&gt; 3: FUN(X[[i]], ...)</span>
+<span class="co">#&gt; 2: lapply(mtcars, fail)</span>
+<span class="co">#&gt; 1: unlist(mtcars |&gt; lapply(fail))</span></code></pre></div>
+</section><section class="slide level2">
+
+<ul>
+<li>Better error messages.</li>
+<li>Much better tracebacks on failure.</li>
+<li>Consistent use of <code>_</code> as the pipe placeholder.</li>
+</ul>
+</section></section>
+<section><section id="brackets-for-list-instantiation" class="titleslide slide level1"><h1><a href="https://github.com/wch/r-source/compare/trunk...jimhester:feature-brackets">Brackets for List Instantiation</a></h1></section><section id="example---ruby" class="slide level2">
+<h2>Example - Ruby</h2>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">days = [
+  <span class="st">&quot;Monday&quot;</span>,
+  <span class="st">&quot;Tuesday&quot;</span>,
+  <span class="st">&quot;Wednesday&quot;</span>,
+  [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],
+]
+print(days)</code></pre></div>
+<pre><code>## [&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, [1, 2, 3]]</code></pre>
+</section><section id="proposed-syntax-4" class="slide level2">
+<h2>Proposed Syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">days &lt;-<span class="st"> </span>[
+  <span class="st">&quot;Monday&quot;</span>,
+  <span class="st">&quot;Tuesday&quot;</span>,
+  <span class="st">&quot;Wednesday&quot;</span>,
+  [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]
+]
+days</code></pre></div>
+<pre><code>## [[1]]
+## [1] &quot;Monday&quot;
+## 
+## [[2]]
+## [1] &quot;Tuesday&quot;
+## 
+## [[3]]
+## [1] &quot;Wednesday&quot;
+## 
+## [[4]]
+## [[4]][[1]]
+## [1] 1
+## 
+## [[4]][[2]]
+## [1] 2
+## 
+## [[4]][[3]]
+## [1] 3</code></pre>
+</section></section>
+<section><section id="compact-anonymous-functions" class="titleslide slide level1"><h1><a href="https://github.com/jimhester/lambda">Compact anonymous functions</a></h1></section><section id="example---c11" class="slide level2">
+<h2>Example - C++11</h2>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="co">/* engine.opts = &quot;-x c++ -std=c++11 -o lambda&quot; */</span>
+<span class="pp">#include </span><span class="im">&lt;iostream&gt;</span>
+<span class="pp">#include </span><span class="im">&lt;functional&gt;</span>
+
+<span class="dt">int</span> main()
+{
+  <span class="dt">auto</span> f = [](<span class="dt">int</span> i) { <span class="cf">return</span> i + <span class="dv">4</span>; };
+  <span class="dt">int</span> num;
+  std::cin &gt;&gt; num;
+  std::cout &lt;&lt; f(num) &lt;&lt; <span class="ch">&#39;\n&#39;</span>;
+}</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">echo</span> 10 <span class="kw">|</span> <span class="ex">./lambda</span></code></pre></div>
+<pre><code>## 14</code></pre>
+</section><section id="proposed-syntax-5" class="slide level2">
+<h2>Proposed Syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github(&quot;jimhester/lambda&quot;)</span>
+<span class="kw">library</span>(<span class="st">&quot;lambda&quot;</span>)
+<span class="kw">lapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="kw">f</span>({.(x) <span class="op">+</span><span class="st"> </span>.(y)}), <span class="dt">y =</span> <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [[1]]
+## [1] 3
+## 
+## [[2]]
+## [1] 4
+## 
+## [[3]]
+## [1] 5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dv">1</span>, <span class="ot">NULL</span>, <span class="dv">2</span>)
+compact &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">Filter</span>(<span class="kw">Negate</span>(is.null), .(x)))
+<span class="kw">compact</span>(x)</code></pre></div>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 2</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">`</span><span class="dt">%f%</span><span class="st">`</span> &lt;-<span class="st"> </span>lambda<span class="op">::</span>f
+<span class="op">%f%</span><span class="st"> </span>{ .(x) <span class="op">+</span><span class="st"> </span>.(y) }</code></pre></div>
+<pre><code>## function (x, y) 
+## {
+##     x + y
+## }</code></pre>
+</section></section>
+<section><section id="variable-unpacking" class="titleslide slide level1"><h1>Variable unpacking</h1></section><section id="example---ruby-1" class="slide level2">
+<h2>Example - Ruby</h2>
+<div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">data = [<span class="ch">&#39;a&#39;</span>, <span class="ch">&#39;b&#39;</span>, <span class="ch">&#39;c&#39;</span>]
+foo, bar, baz  = data
+puts(foo, bar, baz)</code></pre></div>
+<pre><code>## a
+## b
+## c</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">`</span><span class="dt">%&lt;-%</span><span class="st">`</span> &lt;-<span class="st"> </span><span class="cf">function</span>(lhs, rhs) {
+  lhs &lt;-<span class="st"> </span><span class="kw">substitute</span>(lhs)[<span class="op">-</span>1L]
+  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(lhs)) {
+    <span class="kw">assign</span>(<span class="kw">as.character</span>(lhs[[i]]), rhs[[i]], <span class="dt">envir =</span> <span class="kw">parent.frame</span>())
+  }
+}
+data &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>)
+<span class="kw">c</span>(foo, bar, baz) <span class="op">%&lt;-%</span><span class="st"> </span>data
+foo; bar; baz</code></pre></div>
+<pre><code>## [1] &quot;a&quot;</code></pre>
+<pre><code>## [1] &quot;b&quot;</code></pre>
+<pre><code>## [1] &quot;c&quot;</code></pre>
+</section><section id="proposed-syntax-6" class="slide level2">
+<h2>Proposed syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">foo, bar, baz &lt;-<span class="st"> </span>data</code></pre></div>
+</section></section>
+<section><section id="trailing-commas" class="titleslide slide level1"><h1><a href="https://github.com/wch/r-source/compare/trunk...jimhester:feature-trailing_arguments">Trailing Commas</a></h1></section><section id="example---c99" class="slide level2">
+<h2>Example - C99</h2>
+<ul>
+<li><p>C (99),C++, perl, python, ruby, julia, ...</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="kw">enum</span> {
+  foo,
+  bar,
+  baz,
+} e;</code></pre></div>
+<hr /></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span>,
+  <span class="dv">2</span>,
+  <span class="dv">3</span>,
+)</code></pre></div>
+<pre><code>## [1] 1 2 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#&gt; Error in c(1, 2, 3, ) : argument 4 is empty</span>
+<span class="kw">c</span>(<span class="dv">1</span>,
+  <span class="dv">2</span>,
+  <span class="dv">3</span>,
+  <span class="ot">NULL</span>)</code></pre></div>
+<pre><code>## [1] 1 2 3</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">list</span>(<span class="dv">1</span>,
+     <span class="dv">2</span>,
+     <span class="dv">3</span>,
+     <span class="ot">NULL</span>)</code></pre></div>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 2
+## 
+## [[3]]
+## [1] 3
+## 
+## [[4]]
+## NULL</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span>,
+  <span class="dv">2</span>,
+  <span class="dv">3</span>,
+  <span class="kw">list</span>())</code></pre></div>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 2
+## 
+## [[3]]
+## [1] 3</code></pre>
+</section><section id="proposed-syntax-7" class="slide level2">
+<h2>Proposed Syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(
+  <span class="dv">1</span>,
+  <span class="dv">2</span>,
+  <span class="dv">3</span>,
+)</code></pre></div>
+<pre><code>## [1] 1 2 3</code></pre>
+</section></section>
+<section><section id="raw-strings" class="titleslide slide level1"><h1><a href="https://github.com/wch/r-source/compare/trunk...jimhester:feature-raw_string">Raw strings</a></h1></section><section id="example---python" class="slide level2">
+<h2>Example - Python</h2>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(<span class="vs">r&quot;a / raw string with \ some &#39;quotations&#39;&quot;</span>)
+<span class="bu">print</span>(<span class="vs">r&#39;Python has four forms to handle &quot;different&quot; quotes&#39;</span>)
+<span class="bu">print</span>(<span class="vs">r&quot;&quot;&quot;Including the &#39;triple&#39; &quot;quoted&quot; form&quot;&quot;&quot;</span>)</code></pre></div>
+<pre><code>## a / raw string with \ some &#39;quotations&#39;
+## Python has four forms to handle &quot;different&quot; quotes
+## Including the &#39;triple&#39; &quot;quoted&quot; form</code></pre>
+</section><section id="example---perl" class="slide level2">
+<h2>Example - Perl</h2>
+<div class="sourceCode"><pre class="sourceCode perl"><code class="sourceCode perl"><span class="fu">print</span> <span class="kw">q{</span><span class="st">Perl \ lets you delimit &#39;with&#39; &quot;paired&quot; delimiters </span><span class="kw">}</span>;
+<span class="fu">print</span> <span class="kw">q#</span><span class="st">and alternatively any 7-bit \Ascii character</span><span class="kw">#</span></code></pre></div>
+<pre><code>## Perl \ lets you delimit &#39;with&#39; &quot;paired&quot; delimiters and alternatively any 7-bit \Ascii character</code></pre>
+</section><section id="proposed-syntax-8" class="slide level2">
+<h2>Proposed Syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Raw strings are very useful in regular expressions</span>
+<span class="kw">gsub</span>(r<span class="st">&quot;</span><span class="ch">\\</span><span class="st">&quot;</span>, <span class="st">&quot;/&quot;</span>, r<span class="st">&quot;</span><span class="ch">\a\n</span><span class="st">ew\string&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;/a/new/string&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Or windows file paths</span>
+r<span class="st">&#39;C:</span><span class="ch">\f</span><span class="st">oo</span><span class="ch">\b</span><span class="st">ar&#39;</span></code></pre></div>
+<pre><code>## [1] &quot;C:\\foo\\bar&quot;</code></pre>
+</section></section>
+<section><section id="triple-quoted-string-literals" class="titleslide slide level1"><h1><a href="https://cran.r-project.org/package=glue">Triple-Quoted String Literals</a></h1></section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;glue&quot;)</span>
+t &lt;-<span class="st"> </span>glue<span class="op">:::</span>trim
+
+<span class="kw">t</span>(<span class="st">&quot;hello&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;hello&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t</span>(<span class="st">&quot;</span>
+<span class="st">hello&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;hello&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t</span>(<span class="st">&quot;</span>
+
+<span class="st">hello&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;\nhello&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t</span>(<span class="st">&quot;</span>
+<span class="st">  Hello,</span>
+<span class="st">    World.</span>
+<span class="st">  &quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Hello,\n  World.&quot;</code></pre>
+</section><section id="proposed-syntax-9" class="slide level2">
+<h2>Proposed syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>() {
+  <span class="st">&quot;&quot;&quot;</span>
+<span class="st">  Hello,</span>
+<span class="st">    World.</span>
+<span class="st">  &quot;&quot;&quot;</span>
+}</code></pre></div>
+</section></section>
+<section><section id="foreach-and-generator-functions" class="titleslide slide level1"><h1><code>foreach</code> and Generator functions</h1></section><section id="example---python-1" class="slide level2">
+<h2>Example - Python</h2>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> warnings
+<span class="kw">def</span> yrange(n):
+    i <span class="op">=</span> <span class="dv">0</span>
+    <span class="cf">while</span> i <span class="op">&lt;</span> n:
+        <span class="cf">yield</span> i
+        i <span class="op">+=</span> <span class="dv">1</span>
+
+y <span class="op">=</span> yrange(<span class="dv">3</span>)
+<span class="bu">print</span>(y)
+<span class="bu">print</span>(y.<span class="bu">next</span>())
+<span class="bu">print</span>(y.<span class="bu">next</span>())
+<span class="bu">print</span>(y.<span class="bu">next</span>())
+<span class="cf">try</span>:
+    <span class="bu">print</span>(y.<span class="bu">next</span>())
+<span class="cf">except</span> <span class="pp">StopIteration</span> <span class="im">as</span> e:
+    <span class="bu">print</span>(<span class="st">&quot;Iterator done&quot;</span>)
+
+<span class="co"># Within a loop</span>
+<span class="cf">for</span> i <span class="kw">in</span> yrange(<span class="dv">3</span>):
+    <span class="bu">print</span>(i)</code></pre></div>
+<pre><code>## &lt;generator object yrange at 0x10915eaa0&gt;
+## 0
+## 1
+## 2
+## Iterator done
+## 0
+## 1
+## 2</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">yrange &lt;-<span class="st"> </span><span class="cf">function</span>(n) {
+  i &lt;-<span class="st"> </span><span class="dv">1</span>
+  <span class="cf">function</span>() {
+    <span class="cf">if</span> (i <span class="op">&lt;=</span><span class="st"> </span>n) {
+      i &lt;&lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
+      <span class="kw">return</span>(i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)
+    }
+    <span class="kw">return</span>(<span class="ot">FALSE</span>)
+  }
+}
+y =<span class="st"> </span><span class="kw">yrange</span>(<span class="dv">3</span>)
+<span class="kw">y</span>()</code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">y</span>()</code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">y</span>()</code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">y</span>()</code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw">yrange</span>(<span class="dv">3</span>)
+<span class="cf">while</span> (i &lt;-<span class="st"> </span><span class="kw">y</span>()) {
+  <span class="kw">print</span>(i)
+}</code></pre></div>
+<pre><code>## [1] 1
+## [1] 2
+## [1] 3</code></pre>
+</section><section id="proposed-syntax-10" class="slide level2">
+<h2>Proposed Syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">foreach</span> (i <span class="cf">in</span> <span class="kw">yrange</span>(<span class="dv">3</span>)) {
+  <span class="kw">print</span>(i)
+}
+
+<span class="co">#&gt; [1] 1</span>
+<span class="co">#&gt; [1] 2</span>
+<span class="co">#&gt; [1] 3</span></code></pre></div>
+</section></section>
+<section><section id="variable-unquoting-tidy-evaluation" class="titleslide slide level1"><h1><a href="http://dplyr.tidyverse.org/articles/programming.html">Variable unquoting / tidy evaluation</a></h1></section><section id="example---sql" class="slide level2">
+<h2>Example - SQL</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;DBI&quot;</span>)
+con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw">dbConnect</span>(odbc<span class="op">::</span><span class="kw">odbc</span>(), <span class="st">&quot;MySQL&quot;</span>)
+<span class="kw">dbExecute</span>(con, <span class="st">&quot;SET @t1 = 1, @t2 = 2, @t3 = 4&quot;</span>)</code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dbGetQuery</span>(con, <span class="st">&quot;SELECT @t1, @t2, @t3, @t4 := @t1 + @t2 + @t3&quot;</span>)</code></pre></div>
+<pre><code>##   @t1 @t2 @t3 @t4 := @t1 + @t2 + @t3
+## 1   1   2   4                      7</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(rlang))
+var &lt;-<span class="st"> &quot;x&quot;</span>
+value =<span class="st"> &quot;y&quot;</span>
+<span class="kw">data.frame</span>(<span class="kw">exprs</span>(<span class="op">!!</span>var <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="op">!!</span>value))</code></pre></div>
+<pre><code>##   x
+## 1 y</code></pre>
+</section><section id="proposed-syntax-11" class="slide level2">
+<h2>Proposed Syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var &lt;-<span class="st"> &quot;x&quot;</span>
+value =<span class="st"> &quot;y&quot;</span>
+<span class="kw">data.frame</span>(<span class="op">@</span><span class="dt">var =</span> <span class="op">@</span>value)</code></pre></div>
+</section></section>
+<section><section id="unicode-symbols" class="titleslide slide level1"><h1>Unicode Symbols</h1></section><section id="example---python-3-1" class="slide level2">
+<h2>Example - Python 3</h2>
+<pre class="python3"><code>import math
+π = math.pi
+print(π)
+
+def Σ(*args):
+  return sum(*args)
+
+print(Σ([1, 2, 3]))</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">`</span><span class="dt">π</span><span class="st">`</span> =<span class="st"> </span>pi
+<span class="st">`</span><span class="dt">∞</span><span class="st">`</span> =<span class="st"> </span><span class="ot">Inf</span>
+<span class="st">`</span><span class="dt">Σ</span><span class="st">`</span> &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
+  <span class="kw">sum</span>(...)
+}
+<span class="st">`</span><span class="dt">Σ</span><span class="st">`</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     1.0     1.5     2.0     2.0     2.5     3.0</code></pre>
+</section><section id="proposed-syntax-12" class="slide level2">
+<h2>Proposed Syntax</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">π &lt;-<span class="st"> </span>pi
+∞ &lt;-<span class="st"> </span><span class="ot">Inf</span>
+Σ &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
+  <span class="kw">sum</span>(...)
+}
+Σ(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</code></pre></div>
+<ul>
+<li><a href="https://docs.julialang.org/en/release-0.4/manual/variables/">Julia Variables</a></li>
+<li>Tab completions with LaTeX-like symbol names
+<ul>
+<li><code>delta-&lt;tab&gt;</code> -&gt; <code>δ</code></li>
+</ul></li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+  <script src="2017_07_03-DSC2017-Syntax_Extensions_To_R_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="2017_07_03-DSC2017-Syntax_Extensions_To_R_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '2017_07_03-DSC2017-Syntax_Extensions_To_R_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
