@@ -467,8 +467,10 @@ foreach (i in yrange(3)) {
 ```{r}
 library("DBI")
 con <- DBI::dbConnect(odbc::odbc(), "MySQL")
-dbExecute(con, "SET @t1 = 1, @t2 = 2, @t3 = 4")
-dbGetQuery(con, "SELECT @t1, @t2, @t3, @t4 := @t1 + @t2 + @t3")
+mtcars$name <- row.names(mtcars)
+dbWriteTable(con, "mtcars", mtcars, overwrite = TRUE)
+dbExecute(con, "SET @cyl = 8, @hp = 225")
+dbGetQuery(con, "SELECT name FROM mtcars WHERE cyl = @cyl AND hp > @hp")
 ```
 
 ---
