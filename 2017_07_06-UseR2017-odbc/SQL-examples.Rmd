@@ -1,0 +1,102 @@
+---
+title: "R Notebook"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, echo = TRUE}
+library(DBI)
+library(config)
+db <- config::get("testdb")
+con <- dbConnect(odbc::odbc(), "SQLServer", UID = db$username, PWD = db$password)
+knitr::opts_chunk$set(connection = 'con')
+```
+
+```{r}
+con
+```
+
+```{sql}
+Select top 5 * from airports
+```
+
+## Parameterized Queries
+![](http://imgs.xkcd.com/comics/exploits_of_a_mom.png)
+
+```{r}
+tzone <- "'America/Denver'; DROP TABLE airports; --"
+alt <- 4800
+sql <- sprintf("SELECT * from airports WHERE tzone != %s AND alt > %s", tzone, alt)
+dbGetQuery(con, sql)
+
+dbReadTable(con, "airports")
+dbListTables(con, schema_name="dbo")
+
+dbWriteTable(con, "airports", nycflights13::airports)
+
+# Parameterized Query
+q <- dbSendQuery(con, "SELECT * from airports WHERE tzone != ? AND alt > ?")
+dbBind(q, list(tzone, alt))
+dbFetch(q)
+
+tzone <- "America/Denver"
+dbBind(q, list(tzone, alt))
+dbFetch(q)
+```
+
+## dplyr
+```{r}
+library(dplyr)
+library(dbplyr)
+```
+```{r}
+mssql_airports <-  tbl(con, "airports")
+head(mssql_airports)
+```
+
+### SQL Translation
+```{r}
+show_query(head(mssql_airports))
+```
+### Piped
+```{r}
+mssql_airports %>%
+  filter(faa == "gpt")
+```
+### Collect
+```{r}
+library(ggplot2)
+mssql_airports %>%
+  select(lon, lat) %>%
+  filter(lon < 0, lon > -140, lat < 50) %>%
+  collect() %>%
+  ggplot() +
+  geom_point(aes(x = lon, y = lat))
+```
+```{r}
+mssql_flights <- tbl(con, "flights")
+```
+
+```{r}
+mssql_flights %>%
+  left_join(mssql_airports, by = c("origin" = "name")) %>%
+  group_by(origin) %>%
+  summarise(flight = n(),
+            avg_dep_delay = mean(dep_delay),
+            max_dep_delay = max(dep_delay)
+            )
+  
+```
+```{r}
+show_query({
+  mssql_flights %>%
+  left_join(mssql_airports, by = c("origin" = "name")) %>%
+  group_by(origin) %>%
+  summarise(flights =  n(),
+            avg_dep_delay = mean(dep_delay))
+})
+```
+```{r}
+dbDisconnect(con)
+```

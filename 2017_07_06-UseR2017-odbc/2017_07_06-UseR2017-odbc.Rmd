@@ -1,0 +1,79 @@
+---
+output:
+  revealjs::revealjs_presentation:
+    reveal_plugins: ["zoom"]
+    self_contained: false
+    theme: "solarized"
+    center: true
+    smart: false
+    slide_level: 2
+---
+
+<h1>odbc</h1>
+<h2>A modern database interface</h2>
+<h3>Jim Hester (RStudio)</h3>
+
+## Databases
+
+![](main_databases.jpg)
+
+- [RDBMS](https://en.wikipedia.org/wiki/Relational_database_management_system) - **R**elational **D**ata**base** **M**anagement **S**ystem
+- [SQL](https://en.wikipedia.org/wiki/SQL) - **S**trucured **Q**uery **L**anguage
+- Lots of data
+- Many types exist
+- Each has proprietary API / SQL Dialect
+
+## [ODBC](https://msdn.microsoft.com/en-us/library/ms710252(v=vs.85).aspx) - <u>O</u>pen <u>D</u>ata<u>b</u>ase <u>C</u>onnectivity
+
+- Defined Standard
+- Common Connection Configurations
+- Widely adopted, Many Drivers
+- Cross Platform (Unix, MacOS, Windows)
+
+## [DBI](https://cran.r-project.org/package=DBI) - <u>D</u>ata<u>b</u>ase <u>I</u>nterface
+- DBs <-> R/S
+- First CRAN release (2001-12-05), also S-PLUS
+- David A. James - (2001), Hadley Wickham (2014), Kirill Müller (2016)
+- [DBItest](https://github.com/rstats-db/DBItest) - comprehensive compatability testing
+- [dplyr - 0.7.0](https://cran.r-project.org/package=dplyr) generic **DBI** backend
+
+## [odbc](https://www.github.com/rstats-db/odbc#readme)
+
+- `devtools::install_github("rstats-db/odbc")`
+- DBI compatible
+- Complete Rewrite vs RODBC
+- C++11 / Rcpp
+- Native support for dates / timestamps / raw binary / 64 bit integers
+- Parameterized queries / Batched insert, retrevial
+- Well tested - SQL Server, PostgreSQL, MySQL ![](https://img.shields.io/codecov/c/github/rstats-db/odbc/master.svg)
+- QA / Solutions Engineering - Extensive testing Commercial DBs (Oracle, SQL Server, Impala, Hive, ...)
+- [Faster than existing alternatives](https://github.com/rstats-db/odbc#benchmarks)
+
+|         | RODBC        | RSQLServer |
+|---------|--------------|------------|
+| Reading | 3.2 X        | 1.5 X      |
+| Writing | 1.9 X        | 37.6 X     |
+
+## dplyr / dbplyr
+
+- High level interface / SQL translator
+- As of 0.7 works directly with DBI connections
+- Robust Translations
+    - SQL Server, Oracle, PostgreSQL, Hive, Impala...
+
+## RStudio Server Pro - Bundled ODBC Drivers
+ - Driver install script / Easy setup
+ - Improved performance
+ - Improved error messages
+ - Kerberos support
+ - Future - RStudio Connect
+ 
+# Demo
+
+## RStudio's DB Vision
+- Consistent Interfaces - [DBI](https://cran.r-project.org/package=DBI), [dbplyr](https://cran.r-project.org/package=dbplyr)
+- Commercial DBs, Free and Professional Drivers - [odbc](https://cran.r-project.org/package=odbc)
+- Shiny Applications - [pool](https://github.com/rstudio/pool)
+- Storing Credentials - [keyring](https://github.com/gaborcsardi/keyring), [config](https://github.com/rstudio/config)
+- IDE Support / R Markdown / Notebooks
+- <https://db.rstudio.com>
