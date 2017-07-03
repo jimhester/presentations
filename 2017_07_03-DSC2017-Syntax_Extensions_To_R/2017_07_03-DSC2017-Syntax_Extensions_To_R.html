@@ -700,7 +700,7 @@ y <span class="op">=</span> yrange(<span class="dv">3</span>)
 <span class="co"># Within a loop</span>
 <span class="cf">for</span> i <span class="kw">in</span> yrange(<span class="dv">3</span>):
     <span class="bu">print</span>(i)</code></pre></div>
-<pre><code>## &lt;generator object yrange at 0x10c84caa0&gt;
+<pre><code>## &lt;generator object yrange at 0x1053d3aa0&gt;
 ## 0
 ## 1
 ## 2
@@ -784,15 +784,15 @@ greeting &lt;-<span class="st"> </span><span class="cf">function</span>(<span cl
 <section><section id="native-pipe-operator" class="titleslide slide level1"><h1><a href="https://github.com/wch/r-source/compare/trunk...jimhester:feature-native_pipe">Native pipe operator</a></h1></section><section id="example---sh" class="slide level2">
 <h2>Example - sh</h2>
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="fu">ps</span> aux <span class="kw">|</span> <span class="fu">grep</span> -w R <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span> <span class="kw">|</span> <span class="fu">head</span></code></pre></div>
-<pre><code>## 49475
-## 79049
+<pre><code>## 57792
+## 51298
 ## 91032
 ## 73808
 ## 58578
-## 49505
-## 49504
-## 49503
-## 49502</code></pre>
+## 57824
+## 57823
+## 57822
+## 57821</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(magrittr)
 fail &lt;-<span class="st"> </span><span class="cf">function</span>(...) <span class="kw">stop</span>(<span class="st">&quot;fail&quot;</span>)
 mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lapply</span>(fail) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unlist</span>()</code></pre></div>
@@ -861,7 +861,7 @@ mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">l
 <ul>
 <li>Better error messages.</li>
 <li>Much better tracebacks on failure.</li>
-<li>Consistent use of <code>_</code> as the pipe placeholder.</li>
+<li>Consistent use of <code>_</code> as the pipe placeholder instead of <code>.</code>.</li>
 </ul>
 </section></section>
 <section><section id="trailing-commas" class="titleslide slide level1"><h1><a href="https://github.com/wch/r-source/compare/trunk...jimhester:feature-trailing_arguments">Trailing Commas</a></h1></section><section id="example---c99" class="slide level2">
@@ -876,11 +876,12 @@ mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">l
 </ul>
 </section><section class="slide level2">
 
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span>,
-  <span class="dv">2</span>,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(
+  <span class="dv">1</span>,
   <span class="dv">3</span>,
+  <span class="dv">2</span>,
 )</code></pre></div>
-<pre><code>## [1] 1 2 3</code></pre>
+<pre><code>## [1] 1 3 2</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#&gt; Error in c(1, 2, 3, ) : argument 4 is empty</span>
 <span class="kw">c</span>(<span class="dv">1</span>,
   <span class="dv">2</span>,
@@ -925,7 +926,7 @@ mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">l
 )</code></pre></div>
 <pre><code>## [1] 1 2 3</code></pre>
 </section></section>
-<section><section id="compact-anonymous-functions" class="titleslide slide level1"><h1><a href="https://github.com/jimhester/lambda">Compact anonymous functions</a></h1></section><section id="example---c11" class="slide level2">
+<section><section id="compact-anonymous-functions" class="titleslide slide level1"><h1><a href="https://github.com/jimhester/lambda#readme">Compact anonymous functions</a></h1></section><section id="example---c11" class="slide level2">
 <h2>Example - C++11</h2>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="co">/* engine.opts = &quot;-x c++ -std=c++11 -o lambda&quot; */</span>
 <span class="pp">#include </span><span class="im">&lt;iostream&gt;</span>
@@ -938,24 +939,34 @@ mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">l
   std::cin &gt;&gt; num;
   std::cout &lt;&lt; f(num) &lt;&lt; <span class="ch">&#39;\n&#39;</span>;
 }</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">echo</span> 10 <span class="kw">|</span> <span class="ex">./lambda</span></code></pre></div>
-<pre><code>## 14</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">echo</span> 0 <span class="kw">|</span> <span class="ex">./lambda</span>
+<span class="bu">echo</span> 10 <span class="kw">|</span> <span class="ex">./lambda</span></code></pre></div>
+<pre><code>## 4
+## 14</code></pre>
 </section><section id="proposed-syntax-8" class="slide level2">
 <h2>Proposed Syntax</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># devtools::install_github(&quot;jimhester/lambda&quot;)</span>
 <span class="kw">library</span>(<span class="st">&quot;lambda&quot;</span>)
-<span class="kw">lapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="kw">f</span>({.(x) <span class="op">+</span><span class="st"> </span>.(y)}), <span class="dt">y =</span> <span class="dv">2</span>)</code></pre></div>
+fun &lt;-<span class="st"> </span><span class="kw">f</span>({.(x) <span class="op">+</span><span class="st"> </span>.(<span class="dt">y =</span> <span class="dv">1</span>)})
+<span class="kw">fun</span>(<span class="dv">1</span>)</code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fun</span>(<span class="dv">1</span>, <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lapply</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="kw">f</span>({.(x) <span class="op">+</span><span class="st"> </span>.(y)}), <span class="dt">y =</span> <span class="dv">3</span>)</code></pre></div>
 <pre><code>## [[1]]
-## [1] 3
-## 
-## [[2]]
 ## [1] 4
 ## 
+## [[2]]
+## [1] 5
+## 
 ## [[3]]
-## [1] 5</code></pre>
+## [1] 6</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dv">1</span>, <span class="ot">NULL</span>, <span class="dv">2</span>)
 compact &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">Filter</span>(<span class="kw">Negate</span>(is.null), .(x)))
-<span class="kw">compact</span>(x)</code></pre></div>
+base<span class="op">::</span><span class="kw">print.function</span>(compact)</code></pre></div>
+<pre><code>## function (x) 
+## Filter(Negate(is.null), x)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">compact</span>(x)</code></pre></div>
 <pre><code>## [[1]]
 ## [1] 1
 ## 
@@ -964,13 +975,13 @@ compact &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw"
 </section><section class="slide level2">
 
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">`</span><span class="dt">%f%</span><span class="st">`</span> &lt;-<span class="st"> </span>lambda<span class="op">::</span>f
-<span class="op">%f%</span><span class="st"> </span>{ .(x) <span class="op">+</span><span class="st"> </span>.(y) }</code></pre></div>
-<pre><code>## function (x, y) 
+<span class="op">%f%</span><span class="st"> </span>{ .(x) <span class="op">+</span><span class="st"> </span>.(<span class="dt">y =</span> <span class="dv">2</span>) }</code></pre></div>
+<pre><code>## function (x, y = 2) 
 ## {
 ##     x + y
 ## }</code></pre>
 </section></section>
-<section><section id="triple-quoted-string-literals" class="titleslide slide level1"><h1><a href="https://cran.r-project.org/package=glue">Triple-Quoted String Literals</a></h1></section><section class="slide level2">
+<section><section id="triple-quoted-string-literals" class="titleslide slide level1"><h1><a href="https://cran.r-project.org/web/packages/glue/README.html">Triple-Quoted String Literals</a></h1></section><section class="slide level2">
 
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;glue&quot;)</span>
 t &lt;-<span class="st"> </span>glue<span class="op">:::</span>trim
@@ -1030,7 +1041,7 @@ value =<span class="st"> &quot;y&quot;</span>
 <section><section id="variable-unpacking" class="titleslide slide level1"><h1>Variable unpacking</h1></section><section id="example---ruby-1" class="slide level2">
 <h2>Example - Ruby</h2>
 <div class="sourceCode"><pre class="sourceCode ruby"><code class="sourceCode ruby">data = [<span class="ch">&#39;a&#39;</span>, <span class="ch">&#39;b&#39;</span>, <span class="ch">&#39;c&#39;</span>]
-foo, bar, baz  = data
+foo, bar, baz = data
 puts(foo, bar, baz)</code></pre></div>
 <pre><code>## a
 ## b
