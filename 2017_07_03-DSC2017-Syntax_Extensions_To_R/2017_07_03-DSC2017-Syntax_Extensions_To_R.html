@@ -700,7 +700,7 @@ y <span class="op">=</span> yrange(<span class="dv">3</span>)
 <span class="co"># Within a loop</span>
 <span class="cf">for</span> i <span class="kw">in</span> yrange(<span class="dv">3</span>):
     <span class="bu">print</span>(i)</code></pre></div>
-<pre><code>## &lt;generator object yrange at 0x1053d3aa0&gt;
+<pre><code>## &lt;generator object yrange at 0x1100a2aa0&gt;
 ## 0
 ## 1
 ## 2
@@ -784,22 +784,24 @@ greeting &lt;-<span class="st"> </span><span class="cf">function</span>(<span cl
 <section><section id="native-pipe-operator" class="titleslide slide level1"><h1><a href="https://github.com/wch/r-source/compare/trunk...jimhester:feature-native_pipe">Native pipe operator</a></h1></section><section id="example---sh" class="slide level2">
 <h2>Example - sh</h2>
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="fu">ps</span> aux <span class="kw">|</span> <span class="fu">grep</span> -w R <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span> <span class="kw">|</span> <span class="fu">head</span></code></pre></div>
-<pre><code>## 57792
-## 51298
-## 91032
+<pre><code>## 97417
+## 86924
+## 80481
+## 73483
+## 69774
+## 69537
 ## 73808
 ## 58578
-## 57824
-## 57823
-## 57822
-## 57821</code></pre>
+## 97450
+## 97449</code></pre>
+</section><section class="slide level2">
+
+<p>Long traceback's with magrittr implementation hard to understand.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(magrittr)
 fail &lt;-<span class="st"> </span><span class="cf">function</span>(...) <span class="kw">stop</span>(<span class="st">&quot;fail&quot;</span>)
-mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lapply</span>(fail) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unlist</span>()</code></pre></div>
-<pre><code>## Error in FUN(X[[i]], ...): fail</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">traceback</span>()</code></pre></div>
-<pre><code>## No traceback available</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#&gt; 14: stop(&quot;fail&quot;) at #1</span>
+mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">lapply</span>(fail) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unlist</span>()
+<span class="kw">traceback</span>()
+<span class="co">#&gt; 14: stop(&quot;fail&quot;) at #1</span>
 <span class="co">#&gt; 13: FUN(X[[i]], ...)</span>
 <span class="co">#&gt; 12: lapply(., fail)</span>
 <span class="co">#&gt; 11: function_list[[1L]](value)</span>
@@ -815,8 +817,6 @@ mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">l
 <span class="co">#&gt; 1: mtcars %&gt;% lapply(fail) %&gt;% unlist()</span></code></pre></div>
 </section><section id="proposed-syntax-6" class="slide level2">
 <h2>Proposed Syntax</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span>head</code></pre></div>
-<pre><code>## Error: The pipe operator requires a function call as RHS</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">head</span>()</code></pre></div>
 <pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 ## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
@@ -844,18 +844,17 @@ mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">l
 ## Coefficients:
 ## (Intercept)         disp  
 ##     40.8720      -0.1351</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quote</span>(mtcars <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Generated AST contains only nested calls</span>
+<span class="kw">quote</span>(mtcars <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">subset</span>(cyl <span class="op">==</span><span class="st"> </span><span class="dv">4</span>) <span class="op">&gt;</span><span class="er">&gt;</span>
 <span class="st">  </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp, <span class="dt">data =</span> _))</code></pre></div>
 <pre><code>## lm(mpg ~ disp, data = subset(mtcars, cyl == 4))</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">lapply</span>(fail) <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">unlist</span>()</code></pre></div>
-<pre><code>## Error in FUN(X[[i]], ...): fail</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">traceback</span>()</code></pre></div>
-<pre><code>## No traceback available</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#&gt; 4: stop(&quot;fail&quot;) at #1</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">lapply</span>(fail) <span class="op">&gt;</span><span class="er">&gt;</span><span class="st"> </span><span class="kw">unlist</span>()
+<span class="kw">traceback</span>()
+<span class="co">#&gt; 4: stop(&quot;fail&quot;) at #1</span>
 <span class="co">#&gt; 3: FUN(X[[i]], ...)</span>
 <span class="co">#&gt; 2: lapply(mtcars, fail)</span>
-<span class="co">#&gt; 1: unlist(mtcars |&gt; lapply(fail))</span></code></pre></div>
+<span class="co">#&gt; 1: unlist(lapply(mtcars, fail))</span></code></pre></div>
 </section><section class="slide level2">
 
 <ul>
