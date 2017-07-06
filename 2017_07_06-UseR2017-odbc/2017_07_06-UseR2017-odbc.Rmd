@@ -26,7 +26,8 @@ output:
 ## [ODBC](https://msdn.microsoft.com/en-us/library/ms710252(v=vs.85).aspx) - <u>O</u>pen <u>D</u>ata<u>b</u>ase <u>C</u>onnectivity
 
 - Defined Standard
-- Common Connection Configurations
+- Common Connection Procedures
+- Data Insertion / Retrieval
 - Widely adopted, Many Drivers
 - Cross Platform (Unix, MacOS, Windows)
 
@@ -34,17 +35,16 @@ output:
 - DBs <-> R/S
 - First CRAN release (2001-12-05), also S-PLUS
 - David A. James - (2001), Hadley Wickham (2014), Kirill Müller (2016)
-- [DBItest](https://github.com/rstats-db/DBItest) - comprehensive compatability testing
+- [DBItest](https://github.com/rstats-db/DBItest) - comprehensive compatibility testing
 - [dplyr - 0.7.0](https://cran.r-project.org/package=dplyr) generic **DBI** backend
 
 ## [odbc](https://www.github.com/rstats-db/odbc#readme)
 
-- `devtools::install_github("rstats-db/odbc")`
+- `install.packages("odbc")`
 - DBI compatible
-- Complete Rewrite vs RODBC
-- C++11 / Rcpp
+- Complete Rewrite (C++11 / Rcpp) vs RODBC
 - Native support for dates / timestamps / raw binary / 64 bit integers
-- Parameterized queries / Batched insert, retrevial
+- Parameterized queries / Batched insert, retrieval
 - Well tested - SQL Server, PostgreSQL, MySQL ![](https://img.shields.io/codecov/c/github/rstats-db/odbc/master.svg)
 - QA / Solutions Engineering - Extensive testing Commercial DBs (Oracle, SQL Server, Impala, Hive, ...)
 - [Faster than existing alternatives](https://github.com/rstats-db/odbc#benchmarks)
@@ -68,12 +68,11 @@ output:
  - Kerberos support
  - Future - RStudio Connect
  
-# Demo
+## Demo
 
 ## RStudio's DB Vision
-- Consistent Interfaces - [DBI](https://cran.r-project.org/package=DBI), [dbplyr](https://cran.r-project.org/package=dbplyr)
+- Uniform Interfaces - [DBI](https://cran.r-project.org/package=DBI), [dbplyr](https://cran.r-project.org/package=dbplyr)
 - Commercial DBs, Free and Professional Drivers - [odbc](https://cran.r-project.org/package=odbc)
-- Shiny Applications - [pool](https://github.com/rstudio/pool)
 - Storing Credentials - [keyring](https://github.com/gaborcsardi/keyring), [config](https://github.com/rstudio/config)
 - IDE Support / R Markdown / Notebooks
 - <https://db.rstudio.com>

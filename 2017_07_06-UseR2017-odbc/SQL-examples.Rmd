@@ -5,53 +5,70 @@ editor_options:
   chunk_output_type: inline
 ---
 
+config - connection info in file
+keyring - sensitive info in OS credential store
+  - Keychain on macOS
+  - Credential Store on Windows
+  - Secret Service API on Linux
+  
 ```{r setup, echo = TRUE}
 library(DBI)
 library(config)
+# devtools::install_github("rstudio/keyring")
 db <- config::get("testdb")
-con <- dbConnect(odbc::odbc(), "SQLServer", UID = db$username, PWD = db$password)
-knitr::opts_chunk$set(connection = 'con')
+con <- dbConnect(odbc::odbc(), "SimbaSQLServer", UID = db$username, PWD = db$password)
 ```
 
-```{r}
-con
-```
-
-```{sql}
-Select top 5 * from airports
+```{sql, connection = 'con'}
+SELECT TOP 5 * from airports
 ```
 
 ## Parameterized Queries
-![](http://imgs.xkcd.com/comics/exploits_of_a_mom.png)
+
+![Little Bobby Tables](http://imgs.xkcd.com/comics/exploits_of_a_mom.png)
 
 ```{r}
-tzone <- "'America/Denver'; DROP TABLE airports; --"
-alt <- 4800
-sql <- sprintf("SELECT * from airports WHERE tzone != %s AND alt > %s", tzone, alt)
-dbGetQuery(con, sql)
+dbListTables(con, schema_name = "dbo")
 
+altitude <- 4800
+tzone <- "'America/Denver'; DROP TABLE airports; --"
+
+sql <- sprintf("SELECT * from airports WHERE tzone != %s AND alt > %s", tzone, altitude)
+dbGetQuery(con, sql)
+```
+
+```{r, error = TRUE}
 dbReadTable(con, "airports")
 dbListTables(con, schema_name="dbo")
 
-dbWriteTable(con, "airports", nycflights13::airports)
+dbWriteTable(con, "airports", head(nycflights13::airports, n = 1000))
+```
 
+```{r}
 # Parameterized Query
 q <- dbSendQuery(con, "SELECT * from airports WHERE tzone != ? AND alt > ?")
-dbBind(q, list(tzone, alt))
+dbBind(q, list(tzone, altitude))
 dbFetch(q)
+```
+
+```{r}
+dbListTables(con, schema_name="dbo")
 
 tzone <- "America/Denver"
-dbBind(q, list(tzone, alt))
+q <- dbSendQuery(con, "SELECT * from airports WHERE tzone != ? AND alt > ?")
+dbBind(q, list(tzone, altitude))
 dbFetch(q)
 ```
 
 ## dplyr
-```{r}
-library(dplyr)
-library(dbplyr)
+```{r, echo = FALSE}
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(dbplyr)
+})
 ```
 ```{r}
-mssql_airports <-  tbl(con, "airports")
+mssql_airports <- tbl(con, "airports")
 head(mssql_airports)
 ```
 
@@ -62,8 +79,15 @@ show_query(head(mssql_airports))
 ### Piped
 ```{r}
 mssql_airports %>%
-  filter(faa == "gpt")
+  filter(faa == "GPT") %>%
+  select(faa, name)
 ```
+```{r}
+show_query(mssql_airports %>%
+  filter(faa == "GPT") %>%
+  select(faa, name))
+```
+
 ### Collect
 ```{r}
 library(ggplot2)
@@ -72,7 +96,7 @@ mssql_airports %>%
   filter(lon < 0, lon > -140, lat < 50) %>%
   collect() %>%
   ggplot() +
-  geom_point(aes(x = lon, y = lat))
+    geom_point(aes(x = lon, y = lat))
 ```
 ```{r}
 mssql_flights <- tbl(con, "flights")
@@ -94,9 +118,7 @@ show_query({
   left_join(mssql_airports, by = c("origin" = "name")) %>%
   group_by(origin) %>%
   summarise(flights =  n(),
-            avg_dep_delay = mean(dep_delay))
+            avg_dep_delay = mean(dep_delay),
+            max_dep_delay = max(dep_delay))
 })
-```
-```{r}
-dbDisconnect(con)
 ```
