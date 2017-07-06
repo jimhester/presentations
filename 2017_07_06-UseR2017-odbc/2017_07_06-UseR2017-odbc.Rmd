@@ -76,3 +76,4 @@ output:
 - Storing Credentials - [keyring](https://github.com/gaborcsardi/keyring), [config](https://github.com/rstudio/config)
 - IDE Support / R Markdown / Notebooks
 - <https://db.rstudio.com>
+- <https://bit.ly/odbc2017>
