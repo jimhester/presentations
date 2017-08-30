@@ -11,3 +11,7 @@ please install the following things _before_ the meetup.
 
     `devtools::install_github("r-lib/usethis")`
 - Please run `update.packages(ask = FALSE, checkBuilt = TRUE)` to make sure your packages are fully updated.
+
+# Slides
+
+[Link to HTML Presentation](https://rawgit.com/jimhester/presentations/master/2017_08_30-Meetup-Creating_An_R_Package/2017_08_30-Meetup-Creating_R_Packages.html)

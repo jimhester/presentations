@@ -1,0 +1,152 @@
+---
+output:
+  revealjs::revealjs_presentation:
+    reveal_plugins: ["zoom"]
+    self_contained: false
+    theme: "solarized"
+    center: true
+    smart: false
+---
+
+## Creating R Packages
+
+<style>
+p img.logo {
+  height: 1em;
+  width: auto;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+}
+</style>
+
+<p>Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gray.png' class = 'logo'></p>
+
+---
+
+<img data-src='https://media.giphy.com/media/LRwJl9bzAzLdm/giphy.gif', width = '90%'>
+
+# 📚 for 📦 development
+
+## 📚 for 📦 development
+
+- [R packages <r-pkgs.had.co.nz>](http://r-pkgs.had.co.nz/)
+    - Free online / Hardcopy
+- [Writing R Extensions](https://cran.r-project.org/doc/manuals/r-release/R-exts.html)
+- [rOpenSci Onboarding](https://github.com/ropensci/onboarding)
+- [rstudio::conf 2018](https://www.rstudio.com/conference/) - Jan 31st/Feb 3rd.
+     - Extending the Tidyverse - 2 day training
+     - [RStudio workshops](https://www.rstudio.com/workshops/)
+
+---
+
+<img data-src='https://media.giphy.com/media/TFL4MTJ7dqmQM/giphy.gif', width = '90%'>
+
+# R 📦 Components
+
+## R 📦 Components
+
+- [Package metadata (DESCRIPTION)](http://r-pkgs.had.co.nz/description.html)
+- [Code (R/)](http://r-pkgs.had.co.nz/r.html)
+- [Testing (tests/)](http://r-pkgs.had.co.nz/tests.html)
+- [Namespaces (NAMESPACE)](http://r-pkgs.had.co.nz/namespace.html)
+- [Object documentation (man/)](http://r-pkgs.had.co.nz/man.html)
+- [Vignettes (vignettes/)](http://r-pkgs.had.co.nz/vignettes.html)
+- [Data (data/)](http://r-pkgs.had.co.nz/data.html)
+- [Compiled code (src/)](http://r-pkgs.had.co.nz/src.html)
+- [Installed files (inst/)](http://r-pkgs.had.co.nz/inst.html)
+
+---
+
+<img data-src='https://media.giphy.com/media/720g7C1jz13wI/giphy.gif', width = '90%'>
+
+---
+
+## R 📦 Components
+
+- **[Package metadata (DESCRIPTION)](http://r-pkgs.had.co.nz/description.html)**
+- [Code (R/)](http://r-pkgs.had.co.nz/r.html)
+- [Testing (tests/)](http://r-pkgs.had.co.nz/tests.html)
+- [Namespaces (NAMESPACE)](http://r-pkgs.had.co.nz/namespace.html)
+- [Object documentation (man/)](http://r-pkgs.had.co.nz/man.html)
+- [Vignettes (vignettes/)](http://r-pkgs.had.co.nz/vignettes.html)
+- [Data (data/)](http://r-pkgs.had.co.nz/data.html)
+- [Compiled code (src/)](http://r-pkgs.had.co.nz/src.html)
+- [Installed files (inst/)](http://r-pkgs.had.co.nz/inst.html)
+
+## R 📦 Components
+
+- [Package metadata (DESCRIPTION)](http://r-pkgs.had.co.nz/description.html)
+- [Code (R/)](http://r-pkgs.had.co.nz/r.html)
+- [Testing (tests/)](http://r-pkgs.had.co.nz/tests.html)
+- ~~[Namespaces (NAMESPACE)](http://r-pkgs.had.co.nz/namespace.html)~~
+- ~~[Object documentation (man/)](http://r-pkgs.had.co.nz/man.html)~~
+- ~~[Vignettes (vignettes/)](http://r-pkgs.had.co.nz/vignettes.html)~~
+- ~~[Data (data/)](http://r-pkgs.had.co.nz/data.html)~~
+- ~~[Compiled code (src/)](http://r-pkgs.had.co.nz/src.html)~~
+- ~~[Installed files (inst/)](http://r-pkgs.had.co.nz/inst.html)~~
+
+# 🛠 for 📦 development
+
+---
+
+<img data-src='https://media.giphy.com/media/tOGGMh2202HzG/giphy.gif', width = '90%'>
+
+## 🛠 for 📦 development
+
+### [devtools](https://github.com/hadley/devtools)
+  - `load_all()` / `install()`
+  - `test()` / `check()`
+  - `document()`
+  - `release()` / `rhub_check()`
+
+### [usethis](https://github.com/r-lib/usethis)
+  - `create_package()`
+  - `use_test()`
+  - `use_git()` / `use_github()`
+  - `use_travis()` / `use_coverage()`
+
+# Demo
+
+# 
+
+---
+
+<iframe width="640" height="360" data-src="https://www.youtube.com/embed/4lSug4Lj-aA?autoplay=1&rel=0&controls=0&showinfo=0&autohide=1" frameborder="0" allowfullscreen></iframe>
+
+---
+
+<div style="text-align: center; float: left;">
+### 🛠
+
+- [devtools](https://github.com/hadley/devtools)
+    - `load_all()`
+    - `test()`
+    - `document()`
+    - `check()`
+- [usethis](https://github.com/r-lib/usethis)
+    - `create_package()`
+    - `use_test()`
+    - `use_git()`
+    - `use_travis()`
+</div>
+
+<div style="text-align: center; float: right;">
+
+### 📚 - Packages
+
+- [R packages <r-pkgs.had.co.nz>](http://r-pkgs.had.co.nz/)
+- [Writing R Extensions](https://cran.r-project.org/doc/manuals/r-release/R-exts.html)
+- [rOpenSci Onboarding](https://github.com/ropensci/onboarding)
+- [rstudio::conf 2018](https://www.rstudio.com/conference/)
+
+&nbsp;&nbsp;&nbsp;
+
+### 📚 - General
+- [R for Data Science](http://r4ds.had.co.nz/)
+- [Advanced R](adv-r.had.co.nz)
+- [Happy Git with R](http://happygitwithr.com/)
+
+</div>
+
+<h2 id="httpbit.lyrpkg2017" style="clear: right;"><a href="http://bit.ly/rpkg2017" class="uri">http://bit.ly/rpkg2017</a></h2>
