@@ -1,0 +1,136 @@
+---
+output:
+  revealjs::revealjs_presentation:
+    reveal_plugins: ["zoom"]
+    self_contained: false
+    incremental: false
+    theme: "solarized"
+    center: true
+    smart: false
+---
+
+---
+
+<style>
+p img.logo{
+  height: 1em;
+  width: auto;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  vertical-align: middle;
+}
+li em {
+color: #cb4b16;
+}
+li strong {
+color: #2aa198;
+}
+</style>
+
+<div style = "transform: rotate(45deg);position: fixed;top: -25%;right:-15%">
+<a href="https://rstd.io/rpkgs2018" style="color: #2aa198;" class="uri">rstd.io/rpkgs2018</a></h2>
+</div>
+
+
+<h2> <img data-src="https://i.imgur.com/KXKpArf.png" height = "200em" style="vertical-align: middle; border: none; box-shadow: none"> Can make a R 📦 in 20 minutes! </h2>
+
+
+<p>Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gray.png' class = 'logo'></p>
+
+## Why write R 📦?
+
+> - R users already know how to use / install packages
+> - Easy to distribute
+> - But...
+> - Can be just for _you_
+> - No need to develop personal conventions
+> - Standardized conventions -> standardized tools
+> - **It does _not_ have to go on CRAN / Bioconductor **
+
+## Who can write a package?
+
+> - Can you open and run R / RStudio?
+> - Can you install a package?
+> - Can you write R code?
+> - Can you write an R function?
+  > - Can you *learn* to write an R function?
+> - **You can write a package in R**
+
+<div class = "fragment" style = "transform: rotate(25deg);left: 0;position: absolute;"><a href="https://github.com/susjoh/fibonacci"><br><br>Susan Johnston</a></div>
+
+## 📚 for 📦 development
+> - [R packages <r-pkgs.had.co.nz>](http://r-pkgs.had.co.nz/) <img data-src="http://r-pkgs.had.co.nz/cover.png" height="200em" style="vertical-align: middle">
+> - [Writing R Extensions](https://cran.r-project.org/doc/manuals/r-release/R-exts.html)
+> - [rOpenSci Onboarding](https://github.com/ropensci/onboarding)
+
+<h3 class = "fragment">Posts</h3>
+> - [Writing an R package from scratch - Hilary Parker](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/)
+> - [How to develop good R packages - Maëlle Salmon](http://www.masalmon.eu/2017/12/11/goodrpackages/)
+> - [Making your first R package - Fong Chun Chan](http://tinyheero.github.io/jekyll/update/2015/07/26/making-your-first-R-package.html)
+
+## 🛠 for 📦 development
+
+### [devtools](https://github.com/hadley/devtools) / [roxygen2](https://github.com/klutometis/roxygen)
+<ul class = "fragment">
+  <li> `load_all()` / `install()`</li>
+  <li> `test()` / `check()` </li>
+  <li> `document()` </li>
+  <li> `release()` / `rhub_check()` </li>
+</ul>
+
+
+### [usethis](https://github.com/r-lib/usethis)
+<ul class = "fragment">
+ <li> `create_package()` </li>
+ <li> `use_test()` </li>
+ <li> `use_git()` / `use_github()` </li>
+ <li> `use_travis()` / `use_coverage()` </li>
+</ul>
+
+## R 📦 Components
+
+> - [Package metadata (DESCRIPTION)](http://r-pkgs.had.co.nz/description.html)
+> - [Code (R/)](http://r-pkgs.had.co.nz/r.html)
+> - [Testing (tests/)](http://r-pkgs.had.co.nz/tests.html)
+> - ~~[Namespaces (NAMESPACE)](http://r-pkgs.had.co.nz/namespace.html)~~
+> - ~~[Object documentation (man/)](http://r-pkgs.had.co.nz/man.html)~~
+> - ~~[Vignettes (vignettes/)](http://r-pkgs.had.co.nz/vignettes.html)~~
+> - ~~[Data (data/)](http://r-pkgs.had.co.nz/data.html)~~
+> - ~~[Compiled code (src/)](http://r-pkgs.had.co.nz/src.html)~~
+> - ~~[Installed files (inst/)](http://r-pkgs.had.co.nz/inst.html)~~
+
+## Demo
+
+##
+
+<div style="text-align: center; float: left;">
+### 🛠
+
+- [devtools](https://github.com/hadley/devtools)
+    - `load_all()`
+    - `test()`
+    - `document()`
+    - `check()`
+- [usethis](https://github.com/r-lib/usethis)
+    - `create_package()`
+    - `use_test()`
+    - `use_git()`
+    - `use_travis()`
+</div>
+
+<div style="text-align: center; float: right;">
+
+### 📚 - Packages
+
+- [R packages <r-pkgs.had.co.nz>](http://r-pkgs.had.co.nz/)
+- [Writing R Extensions](https://cran.r-project.org/doc/manuals/r-release/R-exts.html)
+- [rOpenSci Onboarding](https://github.com/ropensci/onboarding)
+
+&nbsp;&nbsp;&nbsp;
+
+### 📚 - General
+- [R for Data Science](http://r4ds.had.co.nz/)
+- [Advanced R](adv-r.had.co.nz)
+- [Happy Git with R](http://happygitwithr.com/)
+</div>
