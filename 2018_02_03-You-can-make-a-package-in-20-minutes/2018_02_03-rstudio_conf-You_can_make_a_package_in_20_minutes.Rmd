@@ -83,7 +83,7 @@ color: #2aa198;
 ### [usethis](https://github.com/r-lib/usethis)
 <ul class = "fragment">
  <li> `create_package()` </li>
- <li> `use_test()` </li>
+ <li> `use_test()` / `use_r()` </li>
  <li> `use_git()` / `use_github()` </li>
  <li> `use_travis()` / `use_coverage()` </li>
 </ul>

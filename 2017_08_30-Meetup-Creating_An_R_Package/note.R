@@ -43,14 +43,7 @@ print.note <- function(x, ...) {
   audio::play(x, ...)
 }
 
-# To make chords, sum the waveforms, halving the volume
-`+.note` <- function(x, y) {
-  res <- unclass(x) / 2 + unclass(y) / 2
-  structure(res, class = "note")
-}
-
 # script ------------------------------------------------------------------
-
 
 note("C")
 
