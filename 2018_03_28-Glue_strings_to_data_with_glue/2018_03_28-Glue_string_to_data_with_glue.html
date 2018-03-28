@@ -731,7 +731,7 @@ Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RSt
 <a class="sourceLine" id="cb21-12" data-line-number="12">  <span class="kw">glue</span>(..., <span class="dt">.open =</span> <span class="st">&quot;:&quot;</span>, <span class="dt">.close =</span> <span class="st">&quot;:&quot;</span>, <span class="dt">.envir =</span> .envir, <span class="dt">.transformer =</span> emoji_transformer)</a>
 <a class="sourceLine" id="cb21-13" data-line-number="13">}</a>
 <a class="sourceLine" id="cb21-14" data-line-number="14"><span class="kw">glue_ji</span>(<span class="st">&quot;Many :hands*: make :light: :work:&quot;</span>)</a></code></pre></div>
-<pre><code>## Many 🤙👋👏👐🙌 make 💡 🏢</code></pre>
+<pre><code>## Many 🤙👋👏👐🙌 make 🚥 💼</code></pre>
 </section></section>
 <section><section id="glue-is-fast" class="title-slide slide level1"><h1><strong>glue</strong> is fast</h1></section><section id="glue-is-fast-on-single-strings" class="slide level2">
 <h2><strong>glue</strong> is fast on single strings</h2>
@@ -773,17 +773,16 @@ Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RSt
 </section><section id="glue_sql-quotes-sql-strings" class="slide level2">
 <h2><code>glue_sql()</code> quotes SQL strings</h2>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw">dbConnect</span>(RSQLite<span class="op">::</span><span class="kw">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>)</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2">DBI<span class="op">::</span><span class="kw">dbWriteTable</span>(con, <span class="st">&quot;iris&quot;</span>, iris)</a>
-<a class="sourceLine" id="cb33-3" data-line-number="3">tbl &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw">Id</span>(<span class="dt">schema =</span> <span class="st">&quot;xyz&quot;</span>, <span class="dt">table =</span> <span class="st">&quot;iris&quot;</span>)</a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="kw">glue_sql</span>(<span class="st">&quot;SELECT * FROM {`tbl`} WHERE species IN ({vals*})&quot;</span>,</a>
-<a class="sourceLine" id="cb33-5" data-line-number="5">       <span class="dt">vals =</span> <span class="kw">c</span>(<span class="st">&quot;setosa&quot;</span>, <span class="st">&quot;versicolor&quot;</span>), <span class="dt">.con =</span> con)</a></code></pre></div>
+<a class="sourceLine" id="cb33-2" data-line-number="2">tbl &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw">Id</span>(<span class="dt">schema =</span> <span class="st">&quot;xyz&quot;</span>, <span class="dt">table =</span> <span class="st">&quot;iris&quot;</span>)</a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw">glue_sql</span>(<span class="st">&quot;SELECT * FROM {`tbl`} WHERE species IN ({vals*})&quot;</span>,</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4">       <span class="dt">vals =</span> <span class="kw">c</span>(<span class="st">&quot;setosa&quot;</span>, <span class="st">&quot;versicolor&quot;</span>), <span class="dt">.con =</span> con)</a></code></pre></div>
 <pre><code>## &lt;SQL&gt; SELECT * FROM `xyz`.`iris` WHERE species IN (&#39;setosa&#39;, &#39;versicolor&#39;)</code></pre>
 </section></section>
 <section><section id="glue-is-popular" class="title-slide slide level1"><h1><strong>glue</strong> is popular???</h1></section><section class="slide level2">
 
-<h3 id="weekly-downloads-blah">Weekly downloads <img data-src="https://cranlogs.r-pkg.org/badges/last-week/glue" alt="blah" /></h3>
 <p><a href = "https://www.rdocumentation.org/trends"><img src = "glue_rdocumentation.png"></a></p>
 <h4 id="dplyr-stringr-tidyr-dependency-maybe-already-installed">dplyr, stringr, tidyr dependency, maybe already installed</h4>
+<h3 id="weekly-downloads-blah">Weekly downloads <img data-src="https://cranlogs.r-pkg.org/badges/last-week/glue" alt="blah" /></h3>
 </section><section class="slide level2">
 
 <p><code>install.packages(&quot;glue&quot;)</code></p>

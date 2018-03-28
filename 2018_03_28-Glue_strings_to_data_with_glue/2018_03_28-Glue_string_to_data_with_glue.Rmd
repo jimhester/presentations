@@ -290,7 +290,6 @@ collapse(backtick(1:10), sep = ", ", last = " and ")
 ## `glue_sql()` quotes SQL strings
 ```{r}
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-DBI::dbWriteTable(con, "iris", iris)
 tbl <- DBI::Id(schema = "xyz", table = "iris")
 glue_sql("SELECT * FROM {`tbl`} WHERE species IN ({vals*})",
        vals = c("setosa", "versicolor"), .con = con)
@@ -300,11 +299,11 @@ glue_sql("SELECT * FROM {`tbl`} WHERE species IN ({vals*})",
 
 ----
 
-### Weekly downloads ![blah](https://cranlogs.r-pkg.org/badges/last-week/glue)
-
 <a href = "https://www.rdocumentation.org/trends"><img src = "glue_rdocumentation.png"></a>
 
 #### dplyr, stringr, tidyr dependency, maybe already installed
+
+### Weekly downloads ![blah](https://cranlogs.r-pkg.org/badges/last-week/glue)
 
 ----
 
