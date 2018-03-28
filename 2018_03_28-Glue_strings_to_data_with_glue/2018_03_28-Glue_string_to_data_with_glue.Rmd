@@ -253,7 +253,7 @@ bar <- "bar"
 glue("foo{bar}")
 ```
 
-<img src="benchmark-1.png" alt = "benchmark length 1 string" width = "75%">
+<img src="benchmark-1.png" alt = "benchmark length 1 string" width = "66%">
 
 ## **glue** is fast on lots of strings
 
@@ -261,7 +261,7 @@ glue("foo{bar}")
 bar <- rep("bar", 100000)
 glue("foo{bar}")
 ```
-<img src="benchmark-100k.png" alt = "benchmark length 100k string" width = "75%">
+<img src="benchmark-100k.png" alt = "benchmark length 100k string" width = "66%">
 
 ## **glue** is fast
 
@@ -313,9 +313,9 @@ glue_sql("SELECT * FROM {`tbl`} WHERE species IN ({vals*})",
 [glue.tidyverse.org](https://glue.tidyverse.org)
 
 ```{r}
-sunset <- suncalc::getSunlightTimes(
+sunset_time <- suncalc::getSunlightTimes(
   as.Date("2018-03-28"), lat = 41.3981961, lon = -81.6540062)$sunset
-night_or_day <- if (Sys.time() > sunset) "night" else "day"
 
+night_or_day <- if (Sys.time() > sunset_time) "night" else "day"
 glue("Have a great {night_or_day}!")
 ```

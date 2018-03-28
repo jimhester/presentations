@@ -737,12 +737,12 @@ Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RSt
 <h2><strong>glue</strong> is fast on single strings</h2>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">bar &lt;-<span class="st"> &quot;bar&quot;</span></a>
 <a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">glue</span>(<span class="st">&quot;foo{bar}&quot;</span>)</a></code></pre></div>
-<p><img src="benchmark-1.png" alt = "benchmark length 1 string" width = "75%"></p>
+<p><img src="benchmark-1.png" alt = "benchmark length 1 string" width = "66%"></p>
 </section><section id="glue-is-fast-on-lots-of-strings" class="slide level2">
 <h2><strong>glue</strong> is fast on lots of strings</h2>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">bar &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;bar&quot;</span>, <span class="dv">100000</span>)</a>
 <a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">glue</span>(<span class="st">&quot;foo{bar}&quot;</span>)</a></code></pre></div>
-<p><img src="benchmark-100k.png" alt = "benchmark length 100k string" width = "75%"></p>
+<p><img src="benchmark-100k.png" alt = "benchmark length 100k string" width = "66%"></p>
 </section><section id="glue-is-fast-1" class="slide level2">
 <h2><strong>glue</strong> is fast</h2>
 <ul>
@@ -788,12 +788,12 @@ Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RSt
 
 <p><code>install.packages(&quot;glue&quot;)</code></p>
 <p><a href="https://glue.tidyverse.org">glue.tidyverse.org</a></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">sunset &lt;-<span class="st"> </span>suncalc<span class="op">::</span><span class="kw">getSunlightTimes</span>(</a>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">sunset_time &lt;-<span class="st"> </span>suncalc<span class="op">::</span><span class="kw">getSunlightTimes</span>(</a>
 <a class="sourceLine" id="cb35-2" data-line-number="2">  <span class="kw">as.Date</span>(<span class="st">&quot;2018-03-28&quot;</span>), <span class="dt">lat =</span> <span class="fl">41.3981961</span>, <span class="dt">lon =</span> <span class="fl">-81.6540062</span>)<span class="op">$</span>sunset</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3">night_or_day &lt;-<span class="st"> </span><span class="cf">if</span> (<span class="kw">Sys.time</span>() <span class="op">&gt;</span><span class="st"> </span>sunset) <span class="st">&quot;night&quot;</span> <span class="cf">else</span> <span class="st">&quot;day&quot;</span></a>
-<a class="sourceLine" id="cb35-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4">night_or_day &lt;-<span class="st"> </span><span class="cf">if</span> (<span class="kw">Sys.time</span>() <span class="op">&gt;</span><span class="st"> </span>sunset_time) <span class="st">&quot;night&quot;</span> <span class="cf">else</span> <span class="st">&quot;day&quot;</span></a>
 <a class="sourceLine" id="cb35-5" data-line-number="5"><span class="kw">glue</span>(<span class="st">&quot;Have a great {night_or_day}!&quot;</span>)</a></code></pre></div>
-<pre><code>## Have a great day!</code></pre>
+<pre><code>## Have a great night!</code></pre>
 </section></section>
     </div>
   </div>
