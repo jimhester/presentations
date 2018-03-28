@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>2018_03_28-Glue_string_to_data_with_glue.utf8</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="2018_03_28-Glue_string_to_data_with_glue_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="2018_03_28-Glue_string_to_data_with_glue_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section class="slide level2">
+
+<style>
+p img.logo{
+  height: 1em;
+  width: auto;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  vertical-align: middle;
+}
+li em {
+color: #cb4b16;
+}
+li strong {
+color: #2aa198;
+}
+h2 strong, h1 strong {
+color: #2aa198;
+}
+code span.kw { color: #859900; font-weight: normal; font-style: normal; } /* Keyword */
+code span.dt { color: #B58900; font-weight: normal; font-style: normal; } /* DataType */
+code span.dv { color: #2AA198; font-weight: normal; font-style: normal; } /* DecVal */
+code span.bn { color: #2AA198; font-weight: normal; font-style: normal; } /* BaseN */
+code span.fl { color: #2AA198; font-weight: normal; font-style: normal; } /* Float */
+code span.ch { color: #2AA198; font-weight: normal; font-style: normal; } /* Char */
+code span.st { color: #2AA198; font-weight: normal; font-style: normal; } /* String */
+code span.co { color: #93A1A1; font-weight: normal; font-style: italic; } /* Comment */
+code span.ot { color: #268BD2; font-weight: normal; font-style: normal; } /* Other */
+code span.al { color: #DC322F; font-weight: normal; font-style: normal; } /* Alert */
+code span.fu { color: #268BD2; font-weight: normal; font-style: normal; } /* Function */
+code span.er { color: #DC322F; font-weight: normal; font-style: normal; } /* Error */
+code span.wa { color: #CB4B16; font-weight: normal; font-style: italic; } /* Warning */
+code span.cn { color: #2AA198; font-weight: normal; font-style: normal; } /* Constant */
+code span.sc { color: #DC322F; font-weight: normal; font-style: normal; } /* SpecialChar */
+code span.vs { color: #657B83; font-weight: normal; font-style: normal; } /* VerbatimString */
+code span.ss { color: #DC322F; font-weight: normal; font-style: normal; } /* SpecialString */
+code span.im { color: #657B83; font-weight: normal; font-style: normal; } /* Import */
+code span.va { color: #268BD2; font-weight: normal; font-style: normal; } /* Variable */
+code span.cf { color: #859900; font-weight: normal; font-style: normal; } /* ControlFlow */
+code span.op { color: #859900; font-weight: normal; font-style: normal; } /* Operator */
+code span.bu { color: #657B83; font-weight: normal; font-style: normal; } /* BuiltIn */
+code span.ex { color: #657B83; font-weight: normal; font-style: normal; } /* Extension */
+code span.pp { color: #CB4B16; font-weight: normal; font-style: normal; } /* Preprocessor */
+code span.at { color: #657B83; font-weight: normal; font-style: normal; } /* Attribute */
+code span.do { color: #93A1A1; font-weight: normal; font-style: italic; } /* Documentation */
+code span.an { color: #93A1A1; font-weight: normal; font-style: italic; } /* Annotation */
+code span.cv { color: #93A1A1; font-weight: normal; font-style: italic; } /* CommentVar */
+code span.in { color: #93A1A1; font-weight: normal; font-style: italic; } /* Information */
+</style>
+<h2>
+Glue strings to data with <img data-src="glue-cv1.png" height = "200em" style="vertical-align: middle; border: none; box-shadow: none">
+</h2>
+<p>
+Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gray.png' class = 'logo'>
+</p>
+</section>
+<section id="gluing-strings-is-everwhere" class="slide level2">
+<h2>Gluing strings is everwhere</h2>
+<h3 id="excel">Excel</h3>
+<pre><code>=CONCATENATE(A1, &quot; &quot;, B1)</code></pre>
+<h3 id="bash">Bash</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="va">dir=</span>/tmp</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">for</span> <span class="fu">file</span> in <span class="va">$dir</span>/*<span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="fu">cat</span> <span class="va">$dir</span>/<span class="va">$file</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">done</span></a></code></pre></div>
+<h3 id="python">python</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" data-line-number="1">apples <span class="op">=</span> <span class="dv">4</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="bu">print</span>(<span class="st">&quot;I have </span><span class="sc">{a}</span><span class="st"> apples&quot;</span>.<span class="bu">format</span>(a<span class="op">=</span>apples))</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># Python 3.6+</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="bu">print</span>(<span class="ss">f&quot;I have </span><span class="sc">{</span>apples<span class="sc">}</span><span class="ss"> apples&quot;</span>)</a></code></pre></div>
+</section>
+<section id="gluing-strings-in-r-is-painful" class="slide level2">
+<h2>Gluing strings in R is painful</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">apples &lt;-<span class="st"> </span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">bananas &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">paste0</span>(<span class="st">&quot;Inventory&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">&quot;  Apples: &quot;</span>, apples, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">&quot;  Bananas: &quot;</span>, bananas, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="st">&quot;Total: &quot;</span>, apples <span class="op">+</span><span class="st"> </span>bananas)</a></code></pre></div>
+<pre><code>## Inventory
+##   Apples: 3
+##   Bananas: 2
+## Total: 5</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">sprintf</span>(<span class="st">&quot;Inventory</span><span class="ch">\n</span><span class="st">  Apples: %i</span><span class="ch">\n</span><span class="st">  Bananas: %i</span><span class="ch">\n</span><span class="st">Total: %i&quot;</span>,</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  apples, bananas, apples <span class="op">+</span><span class="st"> </span>bananas)</a></code></pre></div>
+<pre><code>## Inventory
+##   Apples: 3
+##   Bananas: 2
+## Total: 5</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw">file.exists</span>(file)) {</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">  <span class="kw">stop</span>(<span class="st">&quot;&#39;&quot;</span>, file, <span class="st">&quot;&#39; not found&quot;</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">}</a></code></pre></div>
+</section>
+<section id="glue-makes-gluing-strings-easy" class="slide level2">
+<h2><strong>glue</strong> makes Gluing strings easy!</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">apples &lt;-<span class="st"> </span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">bananas &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">glue</span>(<span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  Inventory</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">    Apples: {apples}</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="st">    Bananas: {bananas}</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">  Total: {apples + bananas}&quot;</span>)</a></code></pre></div>
+<pre><code>## Inventory
+##   Apples: 3
+##   Bananas: 2
+## Total: 5</code></pre>
+</section>
+<section id="glue-is-for-users" class="slide level2">
+<h2><strong>glue</strong> is for users</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">mtcars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(cyl) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">description =</span> <span class="kw">glue</span>(<span class="st">&quot;{avg} horsepower (sd={sd} n={n})&quot;</span>,</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">    <span class="dt">avg =</span> <span class="kw">formatC</span>(<span class="kw">mean</span>(hp), <span class="dt">digits =</span> <span class="dv">2</span>, <span class="dt">format =</span> <span class="st">&quot;f&quot;</span>),</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">    <span class="dt">sd =</span> <span class="kw">format</span>(<span class="kw">sd</span>(hp), <span class="dt">digits =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">    <span class="dt">n =</span> <span class="kw">n</span>()))</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##     cyl description                   
+##   &lt;dbl&gt; &lt;S3: glue&gt;                    
+## 1    4. 82.64 horsepower (sd=21 n=11) 
+## 2    6. 122.29 horsepower (sd=24 n=7) 
+## 3    8. 209.21 horsepower (sd=51 n=14)</code></pre>
+</section>
+<section id="glue-is-for-packages" class="slide level2">
+<h2><strong>glue</strong> is for packages</h2>
+<ul>
+<li>Zero dependencies, Tested to R 3.1</li>
+<li>Customizable</li>
+<li>Fast</li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">abort &lt;-<span class="st"> </span><span class="cf">function</span>(..., <span class="dt">.sep =</span> <span class="st">&quot;&quot;</span>, <span class="dt">.envir =</span> <span class="kw">parent.frame</span>()) {</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="kw">stop</span>(<span class="kw">glue</span>(..., <span class="dt">.envir =</span> .envir), <span class="dt">call. =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="cf">if</span> (actual <span class="op">!=</span><span class="st"> </span>expected) {</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">    <span class="kw">abort</span>(<span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="st">      Expected content-type:</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="st">        * {expected}</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="st">      Actual content-type:</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="st">        * {actual}</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="st">      &quot;</span>)</a>
+<a class="sourceLine" id="cb13-12" data-line-number="12">}</a></code></pre></div>
+</section>
+<section><section id="glue-is-customizable" class="title-slide slide level1"><h1><strong>glue</strong> is customizable</h1></section><section id="open-and-.close-change-delimiters" class="slide level2">
+<h2><code>.open</code> and <code>.close</code> change delimiters</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">jlue &lt;-<span class="st"> </span><span class="cf">function</span>(..., <span class="dt">.envir =</span> <span class="kw">parent.frame</span>()) {</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="kw">glue</span>(..., <span class="dt">.open =</span> <span class="st">&quot;&lt;&quot;</span>, <span class="dt">.close =</span> <span class="st">&quot;&gt;&quot;</span>, <span class="dt">.envir =</span> .envir)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">apples &lt;-<span class="st"> </span><span class="dv">1</span>; bananas &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">json &lt;-<span class="st"> </span><span class="kw">jlue</span>(<span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="st">{</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="st">  &quot;fruits&quot;: {</span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="st">    &quot;apples&quot;: &lt;apples&gt;,</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="st">    &quot;bananas&quot;: &lt;bananas&gt;</span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="st">  }</span></a>
+<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="st">}&#39;</span>)</a>
+<a class="sourceLine" id="cb14-13" data-line-number="13">jsonlite<span class="op">::</span><span class="kw">fromJSON</span>(json)</a></code></pre></div>
+<pre><code>## $fruits
+## $fruits$apples
+## [1] 1
+## 
+## $fruits$bananas
+## [1] 2</code></pre>
+</section><section id="transformer-are-robust" class="slide level2">
+<h2><code>.transformer</code> are robust</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">shell_transformer &lt;-<span class="st"> </span><span class="cf">function</span>(code, envir) {</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">  <span class="kw">shQuote</span>(glue<span class="op">::</span><span class="kw">evaluate</span>(code, envir))</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">glue_sh &lt;-<span class="st"> </span><span class="cf">function</span>(..., <span class="dt">.envir =</span> <span class="kw">parent.frame</span>()) {</a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">  <span class="kw">glue</span>(..., <span class="dt">.envir =</span> .envir, <span class="dt">.transformer =</span> shell_transformer)</a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">}</a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9">filename &lt;-<span class="st"> &quot;test&quot;</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="kw">writeLines</span>(<span class="st">&quot;hello!&quot;</span>, filename)</a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12">cmd &lt;-<span class="st"> </span><span class="kw">glue_sh</span>(<span class="st">&quot;cat {filename}&quot;</span>)</a>
+<a class="sourceLine" id="cb16-13" data-line-number="13">cmd</a></code></pre></div>
+<pre><code>## cat &#39;test&#39;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">system</span>(cmd)</a></code></pre></div>
+</section><section id="transformer-are-useful" class="slide level2">
+<h2><code>.transformer</code> are useful</h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">sprintf_transformer &lt;-<span class="st"> </span><span class="cf">function</span>(code, envir) {</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">  m &lt;-<span class="st"> </span><span class="kw">regexpr</span>(<span class="st">&quot;:.+$&quot;</span>, code)</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">  <span class="cf">if</span> (m <span class="op">!=</span><span class="st"> </span><span class="dv">-1</span>) {</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">    format &lt;-<span class="st"> </span><span class="kw">substring</span>(<span class="kw">regmatches</span>(code, m), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">    <span class="kw">regmatches</span>(code, m) &lt;-<span class="st"> &quot;&quot;</span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6">    res &lt;-<span class="st"> </span><span class="kw">evaluate</span>(code, envir)</a>
+<a class="sourceLine" id="cb19-7" data-line-number="7">    <span class="kw">do.call</span>(sprintf, <span class="kw">list</span>(<span class="kw">glue</span>(<span class="st">&quot;%{format}f&quot;</span>), res))</a>
+<a class="sourceLine" id="cb19-8" data-line-number="8">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb19-9" data-line-number="9">    <span class="kw">evaluate</span>(code, envir)</a>
+<a class="sourceLine" id="cb19-10" data-line-number="10">  }</a>
+<a class="sourceLine" id="cb19-11" data-line-number="11">}</a>
+<a class="sourceLine" id="cb19-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13">glue_fmt &lt;-<span class="st"> </span><span class="cf">function</span>(..., <span class="dt">.envir =</span> <span class="kw">parent.frame</span>()) {</a>
+<a class="sourceLine" id="cb19-14" data-line-number="14">  <span class="kw">glue</span>(..., <span class="dt">.transformer =</span> sprintf_transformer, <span class="dt">.envir =</span> .envir)</a>
+<a class="sourceLine" id="cb19-15" data-line-number="15">}</a>
+<a class="sourceLine" id="cb19-16" data-line-number="16"><span class="kw">glue_fmt</span>(<span class="st">&quot;π: {pi:.2}&quot;</span>)</a></code></pre></div>
+<pre><code>## π: 3.14</code></pre>
+</section><section id="transformer-are-fun" class="slide level2">
+<h2><code>.transformer</code> are fun 🎉</h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">library</span>(emo)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">emoji_transformer &lt;-<span class="st"> </span><span class="cf">function</span>(code, envir) {</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">  <span class="cf">if</span> (<span class="kw">grepl</span>(<span class="st">&quot;[*]$&quot;</span>, code)) {</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">    code &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&quot;[*]$&quot;</span>, <span class="st">&quot;&quot;</span>, code)</a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">    <span class="kw">collapse</span>(<span class="kw">ji_find</span>(code)<span class="op">$</span>emoji)</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb21-7" data-line-number="7">    <span class="kw">ji</span>(code)</a>
+<a class="sourceLine" id="cb21-8" data-line-number="8">  }</a>
+<a class="sourceLine" id="cb21-9" data-line-number="9">}</a>
+<a class="sourceLine" id="cb21-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb21-11" data-line-number="11">glue_ji &lt;-<span class="st"> </span><span class="cf">function</span>(..., <span class="dt">.envir =</span> <span class="kw">parent.frame</span>()) {</a>
+<a class="sourceLine" id="cb21-12" data-line-number="12">  <span class="kw">glue</span>(..., <span class="dt">.open =</span> <span class="st">&quot;:&quot;</span>, <span class="dt">.close =</span> <span class="st">&quot;:&quot;</span>, <span class="dt">.envir =</span> .envir, <span class="dt">.transformer =</span> emoji_transformer)</a>
+<a class="sourceLine" id="cb21-13" data-line-number="13">}</a>
+<a class="sourceLine" id="cb21-14" data-line-number="14"><span class="kw">glue_ji</span>(<span class="st">&quot;Many :hands*: make :light: :work:&quot;</span>)</a></code></pre></div>
+<pre><code>## Many 🤙👋👏👐🙌 make 💡 🏢</code></pre>
+</section></section>
+<section><section id="glue-is-fast" class="title-slide slide level1"><h1><strong>glue</strong> is fast</h1></section><section id="glue-is-fast-on-single-strings" class="slide level2">
+<h2><strong>glue</strong> is fast on single strings</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">bar &lt;-<span class="st"> &quot;bar&quot;</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">glue</span>(<span class="st">&quot;foo{bar}&quot;</span>)</a></code></pre></div>
+<p><img src="benchmark-1.png" alt = "benchmark length 1 string" width = "75%"></p>
+</section><section id="glue-is-fast-on-lots-of-strings" class="slide level2">
+<h2><strong>glue</strong> is fast on lots of strings</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">bar &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;bar&quot;</span>, <span class="dv">100000</span>)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">glue</span>(<span class="st">&quot;foo{bar}&quot;</span>)</a></code></pre></div>
+<p><img src="benchmark-100k.png" alt = "benchmark length 100k string" width = "75%"></p>
+</section><section id="glue-is-fast-1" class="slide level2">
+<h2><strong>glue</strong> is fast</h2>
+<ul>
+<li><code>{</code> <code>}</code> parsing in C</li>
+<li>performance dominated by <code>parse()</code> <code>eval()</code> and <code>paste0()</code>.</li>
+<li>still slow? Vectorize!</li>
+<li><a href="https://glue.tidyverse.org/articles/speed.html" class="uri">https://glue.tidyverse.org/articles/speed.html</a></li>
+</ul>
+</section></section>
+<section><section id="glue-contains-more-than-glue" class="title-slide slide level1"><h1><strong>glue</strong> contains more than <code>glue()</code></h1></section><section id="glue_data-binds-strings-to-any-list-environment" class="slide level2">
+<h2><code>glue_data()</code> binds strings to any list / environment</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw">head</span>(mtcars) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">glue_data</span>(<span class="st">&quot;{rownames(.)} has {cyl} cylinders and {hp}hp&quot;</span>)</a></code></pre></div>
+<pre><code>## Mazda RX4 has 6 cylinders and 110hp
+## Mazda RX4 Wag has 6 cylinders and 110hp
+## Datsun 710 has 4 cylinders and 93hp
+## Hornet 4 Drive has 6 cylinders and 110hp
+## Hornet Sportabout has 8 cylinders and 175hp
+## Valiant has 6 cylinders and 105hp</code></pre>
+</section><section id="collapse-collapses-vectors" class="slide level2">
+<h2><code>collapse()</code> collapses vectors</h2>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">collapse</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</a></code></pre></div>
+<pre><code>## 1 2 3 4 5 6 7 8 9 10</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">collapse</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>, <span class="dt">width =</span> <span class="dv">10</span>)</a></code></pre></div>
+<pre><code>## 1 2 3 4...</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">collapse</span>(<span class="kw">backtick</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>), <span class="dt">sep =</span> <span class="st">&quot;, &quot;</span>, <span class="dt">last =</span> <span class="st">&quot; and &quot;</span>)</a></code></pre></div>
+<pre><code>## `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9` and `10`</code></pre>
+</section><section id="glue_sql-quotes-sql-strings" class="slide level2">
+<h2><code>glue_sql()</code> quotes SQL strings</h2>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">con &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw">dbConnect</span>(RSQLite<span class="op">::</span><span class="kw">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>)</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">DBI<span class="op">::</span><span class="kw">dbWriteTable</span>(con, <span class="st">&quot;iris&quot;</span>, iris)</a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">tbl &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw">Id</span>(<span class="dt">schema =</span> <span class="st">&quot;xyz&quot;</span>, <span class="dt">table =</span> <span class="st">&quot;iris&quot;</span>)</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="kw">glue_sql</span>(<span class="st">&quot;SELECT * FROM {`tbl`} WHERE species IN ({vals*})&quot;</span>,</a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">       <span class="dt">vals =</span> <span class="kw">c</span>(<span class="st">&quot;setosa&quot;</span>, <span class="st">&quot;versicolor&quot;</span>), <span class="dt">.con =</span> con)</a></code></pre></div>
+<pre><code>## &lt;SQL&gt; SELECT * FROM `xyz`.`iris` WHERE species IN (&#39;setosa&#39;, &#39;versicolor&#39;)</code></pre>
+</section></section>
+<section><section id="glue-is-popular" class="title-slide slide level1"><h1><strong>glue</strong> is popular???</h1></section><section class="slide level2">
+
+<h3 id="weekly-downloads-blah">Weekly downloads <img data-src="https://cranlogs.r-pkg.org/badges/last-week/glue" alt="blah" /></h3>
+<p><a href = "https://www.rdocumentation.org/trends"><img src = "glue_rdocumentation.png"></a></p>
+<h4 id="dplyr-stringr-tidyr-dependency-maybe-already-installed">dplyr, stringr, tidyr dependency, maybe already installed</h4>
+</section><section class="slide level2">
+
+<p><code>install.packages(&quot;glue&quot;)</code></p>
+<p><a href="https://glue.tidyverse.org">glue.tidyverse.org</a></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">sunset &lt;-<span class="st"> </span>suncalc<span class="op">::</span><span class="kw">getSunlightTimes</span>(</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">  <span class="kw">as.Date</span>(<span class="st">&quot;2018-03-28&quot;</span>), <span class="dt">lat =</span> <span class="fl">41.3981961</span>, <span class="dt">lon =</span> <span class="fl">-81.6540062</span>)<span class="op">$</span>sunset</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">night_or_day &lt;-<span class="st"> </span><span class="cf">if</span> (<span class="kw">Sys.time</span>() <span class="op">&gt;</span><span class="st"> </span>sunset) <span class="st">&quot;night&quot;</span> <span class="cf">else</span> <span class="st">&quot;day&quot;</span></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="kw">glue</span>(<span class="st">&quot;Have a great {night_or_day}!&quot;</span>)</a></code></pre></div>
+<pre><code>## Have a great day!</code></pre>
+</section></section>
+    </div>
+  </div>
+
+  <script src="2018_03_28-Glue_string_to_data_with_glue_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="2018_03_28-Glue_string_to_data_with_glue_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '2018_03_28-Glue_string_to_data_with_glue_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

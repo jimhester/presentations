@@ -1,0 +1,321 @@
+---
+output:
+  revealjs::revealjs_presentation:
+    reveal_plugins: ["zoom"]
+    self_contained: false
+    incremental: false
+    theme: "solarized"
+    center: true
+    smart: false
+---
+
+---
+
+<style>
+p img.logo{
+  height: 1em;
+  width: auto;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  vertical-align: middle;
+}
+li em {
+color: #cb4b16;
+}
+li strong {
+color: #2aa198;
+}
+h2 strong, h1 strong {
+color: #2aa198;
+}
+code span.kw { color: #859900; font-weight: normal; font-style: normal; } /* Keyword */
+code span.dt { color: #B58900; font-weight: normal; font-style: normal; } /* DataType */
+code span.dv { color: #2AA198; font-weight: normal; font-style: normal; } /* DecVal */
+code span.bn { color: #2AA198; font-weight: normal; font-style: normal; } /* BaseN */
+code span.fl { color: #2AA198; font-weight: normal; font-style: normal; } /* Float */
+code span.ch { color: #2AA198; font-weight: normal; font-style: normal; } /* Char */
+code span.st { color: #2AA198; font-weight: normal; font-style: normal; } /* String */
+code span.co { color: #93A1A1; font-weight: normal; font-style: italic; } /* Comment */
+code span.ot { color: #268BD2; font-weight: normal; font-style: normal; } /* Other */
+code span.al { color: #DC322F; font-weight: normal; font-style: normal; } /* Alert */
+code span.fu { color: #268BD2; font-weight: normal; font-style: normal; } /* Function */
+code span.er { color: #DC322F; font-weight: normal; font-style: normal; } /* Error */
+code span.wa { color: #CB4B16; font-weight: normal; font-style: italic; } /* Warning */
+code span.cn { color: #2AA198; font-weight: normal; font-style: normal; } /* Constant */
+code span.sc { color: #DC322F; font-weight: normal; font-style: normal; } /* SpecialChar */
+code span.vs { color: #657B83; font-weight: normal; font-style: normal; } /* VerbatimString */
+code span.ss { color: #DC322F; font-weight: normal; font-style: normal; } /* SpecialString */
+code span.im { color: #657B83; font-weight: normal; font-style: normal; } /* Import */
+code span.va { color: #268BD2; font-weight: normal; font-style: normal; } /* Variable */
+code span.cf { color: #859900; font-weight: normal; font-style: normal; } /* ControlFlow */
+code span.op { color: #859900; font-weight: normal; font-style: normal; } /* Operator */
+code span.bu { color: #657B83; font-weight: normal; font-style: normal; } /* BuiltIn */
+code span.ex { color: #657B83; font-weight: normal; font-style: normal; } /* Extension */
+code span.pp { color: #CB4B16; font-weight: normal; font-style: normal; } /* Preprocessor */
+code span.at { color: #657B83; font-weight: normal; font-style: normal; } /* Attribute */
+code span.do { color: #93A1A1; font-weight: normal; font-style: italic; } /* Documentation */
+code span.an { color: #93A1A1; font-weight: normal; font-style: italic; } /* Annotation */
+code span.cv { color: #93A1A1; font-weight: normal; font-style: italic; } /* CommentVar */
+code span.in { color: #93A1A1; font-weight: normal; font-style: italic; } /* Information */
+</style>
+
+
+<h2>Glue strings to data with <img data-src="glue-cv1.png" height = "200em" style="vertical-align: middle; border: none; box-shadow: none"></h2>
+
+
+<p>Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gray.png' class = 'logo'></p>
+
+## Gluing strings is everwhere
+
+### Excel
+```
+=CONCATENATE(A1, " ", B1)
+```
+### Bash
+```sh
+dir=/tmp
+for file in $dir/*; do
+  cat $dir/$file
+done
+```
+
+### python
+```python
+apples = 4
+print("I have {a} apples".format(a=apples))
+
+# Python 3.6+
+print(f"I have {apples} apples")
+```
+
+## Gluing strings in R is painful
+
+```{r setup0, include = F}
+print.character <- function(x, ...) {
+  cat(x)
+  invisible(x)
+}
+library <- function(...) base::library(warn.conflicts = FALSE, ...)
+library(dplyr)
+library(glue)
+```
+
+```{r}
+apples <- 3
+bananas <- 2
+paste0("Inventory", "\n",
+"  Apples: ", apples, "\n",
+"  Bananas: ", bananas, "\n",
+"Total: ", apples + bananas)
+  
+sprintf("Inventory\n  Apples: %i\n  Bananas: %i\nTotal: %i",
+  apples, bananas, apples + bananas)
+```
+
+```r
+if (!file.exists(file)) {
+  stop("'", file, "' not found")
+}
+```
+## **glue** makes Gluing strings easy!
+
+```{r, eval = require("glue")}
+apples <- 3
+bananas <- 2
+glue("
+  Inventory
+    Apples: {apples}
+    Bananas: {bananas}
+  Total: {apples + bananas}")
+```
+
+## **glue** is for users
+
+```{r}
+library(dplyr)
+mtcars %>%
+  group_by(cyl) %>%
+  summarize(description = glue("{avg} horsepower (sd={sd} n={n})",
+    avg = formatC(mean(hp), digits = 2, format = "f"),
+    sd = format(sd(hp), digits = 2),
+    n = n()))
+```
+
+## **glue** is for packages
+
+- Zero dependencies, Tested to R 3.1
+- Customizable
+- Fast
+
+```{r, eval = FALSE}
+abort <- function(..., .sep = "", .envir = parent.frame()) {
+  stop(glue(..., .envir = .envir), call. = FALSE)
+}
+
+if (actual != expected) {
+    abort("
+      Expected content-type:
+        * {expected}
+      Actual content-type:
+        * {actual}
+      ")
+}
+```
+
+# **glue** is customizable
+
+## `.open` and `.close` change delimiters
+
+```{r}
+jlue <- function(..., .envir = parent.frame()) {
+  glue(..., .open = "<", .close = ">", .envir = .envir)
+}
+
+apples <- 1; bananas <- 2
+json <- jlue('
+{
+  "fruits": {
+    "apples": <apples>,
+    "bananas": <bananas>
+  }
+}')
+jsonlite::fromJSON(json)
+```
+
+## `.transformer` are robust
+
+```{r}
+shell_transformer <- function(code, envir) {
+  shQuote(glue::evaluate(code, envir))
+}
+
+glue_sh <- function(..., .envir = parent.frame()) {
+  glue(..., .envir = .envir, .transformer = shell_transformer)
+}
+
+filename <- "test"
+writeLines("hello!", filename)
+
+cmd <- glue_sh("cat {filename}")
+cmd
+
+system(cmd)
+```
+
+## `.transformer` are useful
+
+```{r}
+sprintf_transformer <- function(code, envir) {
+  m <- regexpr(":.+$", code)
+  if (m != -1) {
+    format <- substring(regmatches(code, m), 2)
+    regmatches(code, m) <- ""
+    res <- evaluate(code, envir)
+    do.call(sprintf, list(glue("%{format}f"), res))
+  } else {
+    evaluate(code, envir)
+  }
+}
+
+glue_fmt <- function(..., .envir = parent.frame()) {
+  glue(..., .transformer = sprintf_transformer, .envir = .envir)
+}
+glue_fmt("π: {pi:.2}")
+```
+
+## `.transformer` are fun 🎉
+
+```{r}
+library(emo)
+emoji_transformer <- function(code, envir) {
+  if (grepl("[*]$", code)) {
+    code <- sub("[*]$", "", code)
+    collapse(ji_find(code)$emoji)
+  } else {
+    ji(code)
+  }
+}
+
+glue_ji <- function(..., .envir = parent.frame()) {
+  glue(..., .open = ":", .close = ":", .envir = .envir, .transformer = emoji_transformer)
+}
+glue_ji("Many :hands*: make :light: :work:")
+```
+
+
+# **glue** is fast
+
+## **glue** is fast on single strings
+
+```r
+bar <- "bar"
+glue("foo{bar}")
+```
+
+<img src="benchmark-1.png" alt = "benchmark length 1 string" width = "75%">
+
+## **glue** is fast on lots of strings
+
+```r
+bar <- rep("bar", 100000)
+glue("foo{bar}")
+```
+<img src="benchmark-100k.png" alt = "benchmark length 100k string" width = "75%">
+
+## **glue** is fast
+
+- `{` `}` parsing in C
+- performance dominated by `parse()` `eval()` and `paste0()`.
+- still slow? Vectorize!
+- <https://glue.tidyverse.org/articles/speed.html>
+
+# **glue** contains more than `glue()`
+
+## `glue_data()` binds strings to any list / environment
+
+```{r}
+library(magrittr)
+head(mtcars) %>% glue_data("{rownames(.)} has {cyl} cylinders and {hp}hp")
+```
+
+## `collapse()` collapses vectors
+
+```{r}
+collapse(1:10, sep = " ")
+collapse(1:10, sep = " ", width = 10)
+collapse(backtick(1:10), sep = ", ", last = " and ")
+```
+
+## `glue_sql()` quotes SQL strings
+```{r}
+con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+DBI::dbWriteTable(con, "iris", iris)
+tbl <- DBI::Id(schema = "xyz", table = "iris")
+glue_sql("SELECT * FROM {`tbl`} WHERE species IN ({vals*})",
+       vals = c("setosa", "versicolor"), .con = con)
+```
+
+# **glue** is popular???
+
+----
+
+### Weekly downloads ![blah](https://cranlogs.r-pkg.org/badges/last-week/glue)
+
+<a href = "https://www.rdocumentation.org/trends"><img src = "glue_rdocumentation.png"></a>
+
+#### dplyr, stringr, tidyr dependency, maybe already installed
+
+----
+
+`install.packages("glue")`
+
+[glue.tidyverse.org](https://glue.tidyverse.org)
+
+```{r}
+sunset <- suncalc::getSunlightTimes(
+  as.Date("2018-03-28"), lat = 41.3981961, lon = -81.6540062)$sunset
+night_or_day <- if (Sys.time() > sunset) "night" else "day"
+
+glue("Have a great {night_or_day}!")
+```
