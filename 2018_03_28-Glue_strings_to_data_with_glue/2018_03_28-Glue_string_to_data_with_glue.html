@@ -569,6 +569,10 @@ Glue strings to data with <img data-src="glue-cv1.png" height = "200em" style="v
 <p>
 Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gray.png' class = 'logo'>
 </p>
+<br /> <br />
+<h5>
+<a href='http://rstd.io/glue'>rstd.io/glue
+</h3>
 </section>
 <section id="gluing-strings-is-everwhere" class="slide level2">
 <h2>Gluing strings is everwhere</h2>
@@ -627,10 +631,16 @@ Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RSt
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">mtcars <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(cyl) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">description =</span> <span class="kw">glue</span>(<span class="st">&quot;{avg} horsepower (sd={sd} n={n})&quot;</span>,</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">    <span class="dt">avg =</span> <span class="kw">formatC</span>(<span class="kw">mean</span>(hp), <span class="dt">digits =</span> <span class="dv">2</span>, <span class="dt">format =</span> <span class="st">&quot;f&quot;</span>),</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">    <span class="dt">sd =</span> <span class="kw">format</span>(<span class="kw">sd</span>(hp), <span class="dt">digits =</span> <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">    <span class="dt">n =</span> <span class="kw">n</span>()))</a></code></pre></div>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">    <span class="dt">description =</span> <span class="kw">glue</span>(<span class="st">&quot;{avg} horsepower (sd={sd} n={n})&quot;</span>,</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">                       </a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">    <span class="dt">avg =</span> <span class="kw">formatC</span>(<span class="kw">mean</span>(hp),</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">                  <span class="dt">digits =</span> <span class="dv">2</span>, <span class="dt">format =</span> <span class="st">&quot;f&quot;</span>),</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"> </a>
+<a class="sourceLine" id="cb11-10" data-line-number="10">    <span class="dt">sd =</span> <span class="kw">format</span>(<span class="kw">sd</span>(hp),</a>
+<a class="sourceLine" id="cb11-11" data-line-number="11">                <span class="dt">digits =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb11-12" data-line-number="12">    </a>
+<a class="sourceLine" id="cb11-13" data-line-number="13">    <span class="dt">n =</span> <span class="kw">n</span>()))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##     cyl description                   
 ##   &lt;dbl&gt; &lt;S3: glue&gt;                    
@@ -787,12 +797,11 @@ Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RSt
 
 <p><code>install.packages(&quot;glue&quot;)</code></p>
 <p><a href="https://glue.tidyverse.org">glue.tidyverse.org</a></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">sunset_time &lt;-<span class="st"> </span>suncalc<span class="op">::</span><span class="kw">getSunlightTimes</span>(</a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">  <span class="kw">as.Date</span>(<span class="st">&quot;2018-03-28&quot;</span>), <span class="dt">lat =</span> <span class="fl">41.3981961</span>, <span class="dt">lon =</span> <span class="fl">-81.6540062</span>)<span class="op">$</span>sunset</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb35-4" data-line-number="4">night_or_day &lt;-<span class="st"> </span><span class="cf">if</span> (<span class="kw">Sys.time</span>() <span class="op">&gt;</span><span class="st"> </span>sunset_time) <span class="st">&quot;night&quot;</span> <span class="cf">else</span> <span class="st">&quot;day&quot;</span></a>
-<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="kw">glue</span>(<span class="st">&quot;Have a great {night_or_day}!&quot;</span>)</a></code></pre></div>
-<pre><code>## Have a great night!</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">adjective &lt;-<span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;luminous&quot;</span>, <span class="st">&quot;stylish&quot;</span>, <span class="st">&quot;super&quot;</span>, <span class="st">&quot;striking&quot;</span>,</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">                <span class="st">&quot;impressive&quot;</span>, <span class="st">&quot;fantastic&quot;</span>)</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">  </a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="kw">glue</span>(<span class="st">&quot;Have a {sample(adjective, 1)} day!&quot;</span>)</a></code></pre></div>
+<pre><code>## Have a fantastic day!</code></pre>
 </section></section>
     </div>
   </div>

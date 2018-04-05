@@ -63,8 +63,10 @@ code span.in { color: #93A1A1; font-weight: normal; font-style: italic; } /* Inf
 
 <h2>Glue strings to data with <img data-src="glue-cv1.png" height = "200em" style="vertical-align: middle; border: none; box-shadow: none"></h2>
 
-
 <p>Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gray.png' class = 'logo'></p>
+<br />
+<br />
+<h5> <a href='http://rstd.io/glue'>rstd.io/glue</h3>
 
 ## Gluing strings is everwhere
 
@@ -136,9 +138,15 @@ glue("
 library(dplyr)
 mtcars %>%
   group_by(cyl) %>%
-  summarize(description = glue("{avg} horsepower (sd={sd} n={n})",
-    avg = formatC(mean(hp), digits = 2, format = "f"),
-    sd = format(sd(hp), digits = 2),
+  summarize(
+    description = glue("{avg} horsepower (sd={sd} n={n})",
+                       
+    avg = formatC(mean(hp),
+                  digits = 2, format = "f"),
+ 
+    sd = format(sd(hp),
+                digits = 2),
+    
     n = n()))
 ```
 
@@ -312,9 +320,8 @@ glue_sql("SELECT * FROM {`tbl`} WHERE species IN ({vals*})",
 [glue.tidyverse.org](https://glue.tidyverse.org)
 
 ```{r}
-sunset_time <- suncalc::getSunlightTimes(
-  as.Date("2018-03-28"), lat = 41.3981961, lon = -81.6540062)$sunset
-
-night_or_day <- if (Sys.time() > sunset_time) "night" else "day"
-glue("Have a great {night_or_day}!")
+adjective <-  c("luminous", "stylish", "super", "striking",
+                "impressive", "fantastic")
+  
+glue("Have a {sample(adjective, 1)} day!")
 ```
