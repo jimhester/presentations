@@ -322,6 +322,6 @@ glue_sql("SELECT * FROM {`tbl`} WHERE species IN ({vals*})",
 ```{r}
 adjective <-  c("luminous", "stylish", "super", "striking",
                 "impressive", "fantastic")
-  
+
 glue("Have a {sample(adjective, 1)} day!")
 ```
