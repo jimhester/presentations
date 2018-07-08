@@ -1,0 +1,183 @@
+---
+output:
+  revealjs::revealjs_presentation:
+    reveal_plugins: ["zoom"]
+    self_contained: false
+    incremental: true
+    theme: "solarized"
+    center: true
+    smart: false
+    reveal_options:
+      width: 100%
+      height: 100%
+---
+
+<link rel="stylesheet" href="solarized-light.css">
+
+<h2> Alternative parsers in package space </h2>
+
+<p>Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gray.png' class = 'logo'></p>
+<br />
+<br />
+
+---
+
+<style>
+.container{
+    display: flex;
+}
+.col{
+    flex: 1;
+}
+</style>
+
+
+## DSC 2017 - [Syntax Extensions for R](https://www.r-project.org/dsc/2017/slides/syntax-extensions.html)
+
+<div class = "fragment container">
+<p>Raw strings</p>
+<div class = "col">
+```r
+"C:\\foo\\bar"
+```
+</div>
+<div class = "col">
+```r
+r"C:\foo\bar"
+```
+</div>
+</div>
+<div class = "fragment container">
+<p>Glue strings</p>
+<div class = "col">
+```r
+glue("pi = {pi}")
+```
+</div>
+<div class = "col">
+```r
+g"pi = {pi}"
+```
+</div>
+</div>
+<div class = "fragment container">
+<p>Native pipes</p>
+<div class = "col">
+```r
+mtcars %>%
+  subset(hp > mean(hp)) %>%
+  head()
+```
+</div>
+<div class = "col">
+```r
+iris |>
+  subset(p > mean(hp)) |>
+  head()
+```
+</div>
+</div>
+<div class = "fragment container">
+<p>List creation</p>
+<div class = "col">
+```r
+list(1, 2, 3, list(4, 5, 6))
+```
+</div>
+<div class = "col">
+```r
+[1, 2, 3 [4, 5, 6]]
+```
+</div>
+</div>
+
+## Changing base R parser is challenging
+  - build consensus
+  - avoid conflicts / grammar ambiguities
+  - requires extensive testing
+
+## [altparsers package](https://github.com/jimhester/altparsers)
+
+- <https://github.com/jimhester/altparsers>
+- Multiple parsers available
+  - User / package author extendable
+- Can mix parsers in same package
+- REPL(s) available for interactive use
+- Experiment in package space
+
+## tidy parser
+
+- Just POC, no current plans to use widely
+- Based on R bison parser
+- Many features from previous talk
+  - raw strings: <pre><code>grepl(r"\w+")</code></pre>
+  - glue strings: <pre><code>x <- 1; g"x = {x}"</code></pre>
+  - native pipes: <pre><code>mtcars |> filter(hp > 150) |> select(hp, mpg)</code></pre>
+  - list generation: <pre><code>[1, 2, 3 [5, 5, 6]]</code></pre>
+
+## Unquoting operators (`!!` and `!!!`)
+
+  ```r
+  # Normal R parser
+  `!`(`!`(foo))
+  
+  # Would prefer
+  `!!`(foo)
+  
+  # Prefer tighter binding
+  !!x + y
+  ```
+
+- [2k+ lines of code in rlang](https://github.com/r-lib/rlang/pull/328)
+- [12 line change to add to parser](https://github.com/jimhester/altparsers/commit/19de1acc1728dfe3cc1014c5c68d7659143c72dd)
+
+## S-expression parser
+
+- _very_ simple POC
+- demonstrates use of non-native parsers
+
+<div class = "fragment">
+```lisp
+(+ 1 (* 2 3))
+```
+</div>
+
+## Interactive use
+
+- Loosely based on Ross Ihaka's [R-script](https://www.stat.auckland.ac.nz/~ihaka/software/R-script/R-script.html)
+- `repl()` function used to start REPL with new parser
+  - `repl(parse_text)`
+  - `repl(tidy_parse_text)`
+  - `repl(sexp_parse_text)`
+- `q()` used to exit
+
+## Package use
+
+- Scripts - `inst/*`
+- `altparsers::src()` to load scripts with parser
+- export / document as normal
+
+<div class = "fragment">
+```{r, eval = FALSE}
+.onLoad <- function(...) {
+  altparsers::src(system.file(package = "ex", "sexp"),
+                  package = "ex",
+                  altparsers::sexp_parse_file)
+  
+  altparsers::src(system.file(package = "ex", "tidy"),
+                  package = "ex",
+                  altparsers::tidy_parse_file)
+}
+```
+</div>
+
+## Demo
+
+## [altparsers package](https://github.com/jimhester/altparsers)
+
+- `altparsers::src()`
+- `altparsers::repl()`
+- Experiment with parsers in packages
+- Parsers just simple examples
+  - More complicated/useful features possible
+  - Aviral Goel - [Annotations for R](https://www.r-project.org/dsc/2017/slides/Annotations_for_R.pdf)

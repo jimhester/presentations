@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>2018_07_09-Altparsers.utf8.md</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="2018_07_09-Altparsers_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="2018_07_09-Altparsers_files/reveal.js-3.3.0.1/css/theme/solarized.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section class="slide level2">
+
+<p><link rel="stylesheet" href="solarized-light.css"></p>
+<h2>
+Alternative parsers in package space
+</h2>
+<p>
+Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gray.png' class = 'logo'>
+</p>
+<p><br /> <br /></p>
+</section>
+<section class="slide level2">
+
+<style>
+.container{
+    display: flex;
+}
+.col{
+    flex: 1;
+}
+</style>
+</section>
+<section id="dsc-2017---syntax-extensions-for-r" class="slide level2">
+<h2>DSC 2017 - <a href="https://www.r-project.org/dsc/2017/slides/syntax-extensions.html">Syntax Extensions for R</a></h2>
+<div class="fragment container">
+<p>
+Raw strings
+</p>
+<div class="col">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="st">&quot;C:</span><span class="ch">\\</span><span class="st">foo</span><span class="ch">\\</span><span class="st">bar&quot;</span></a></code></pre></div>
+</div>
+<div class="col">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">r<span class="st">&quot;C:</span><span class="ch">\f</span><span class="st">oo</span><span class="ch">\b</span><span class="st">ar&quot;</span></a></code></pre></div>
+</div>
+</div>
+<div class="fragment container">
+<p>
+Glue strings
+</p>
+<div class="col">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">glue</span>(<span class="st">&quot;pi = {pi}&quot;</span>)</a></code></pre></div>
+</div>
+<div class="col">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">g<span class="st">&quot;pi = {pi}&quot;</span></a></code></pre></div>
+</div>
+</div>
+<div class="fragment container">
+<p>
+Native pipes
+</p>
+<div class="col">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">mtcars <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw">subset</span>(hp <span class="op">&gt;</span><span class="st"> </span><span class="kw">mean</span>(hp)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
+</div>
+<div class="col">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">iris <span class="op">|</span><span class="er">&gt;</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw">subset</span>(p <span class="op">&gt;</span><span class="st"> </span><span class="kw">mean</span>(hp)) <span class="op">|</span><span class="er">&gt;</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
+</div>
+</div>
+<div class="fragment container">
+<p>
+List creation
+</p>
+<div class="col">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">list</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="kw">list</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>))</a></code></pre></div>
+</div>
+<div class="col">
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span> [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]]</a></code></pre></div>
+</div>
+</div>
+</section>
+<section id="changing-base-r-parser-is-challenging" class="slide level2">
+<h2>Changing base R parser is challenging</h2>
+<ul>
+<li class="fragment">build consensus</li>
+<li class="fragment">avoid conflicts / grammar ambiguities</li>
+<li class="fragment">requires extensive testing</li>
+</ul>
+</section>
+<section id="altparsers-package" class="slide level2">
+<h2><a href="https://github.com/jimhester/altparsers">altparsers package</a></h2>
+<ul>
+<li class="fragment"><a href="https://github.com/jimhester/altparsers" class="uri">https://github.com/jimhester/altparsers</a></li>
+<li class="fragment">Multiple parsers available
+<ul>
+<li class="fragment">User / package author extendable</li>
+</ul></li>
+<li class="fragment">Can mix parsers in same package</li>
+<li class="fragment">REPL(s) available for interactive use</li>
+<li class="fragment">Experiment in package space</li>
+</ul>
+</section>
+<section id="tidy-parser" class="slide level2">
+<h2>tidy parser</h2>
+<ul>
+<li class="fragment">Just POC, no current plans to use widely</li>
+<li class="fragment">Based on R bison parser</li>
+<li class="fragment">Many features from previous talk
+<ul>
+<li class="fragment">raw strings:
+<pre><code>grepl(r"\w+")</code></pre></li>
+<li class="fragment">glue strings:
+<pre><code>x <- 1; g"x = {x}"</code></pre></li>
+<li class="fragment">native pipes:
+<pre><code>mtcars |> filter(hp > 150) |> select(hp, mpg)</code></pre></li>
+<li class="fragment">list generation:
+<pre><code>[1, 2, 3 [5, 5, 6]]</code></pre></li>
+</ul></li>
+</ul>
+</section>
+<section id="unquoting-operators-and" class="slide level2">
+<h2>Unquoting operators (<code>!!</code> and <code>!!!</code>)</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Normal R parser</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">`</span><span class="dt">!</span><span class="st">`</span>(<span class="st">`</span><span class="dt">!</span><span class="st">`</span>(foo))</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co"># Would prefer</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">`</span><span class="dt">!!</span><span class="st">`</span>(foo)</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co"># Prefer tighter binding</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="op">!!</span>x <span class="op">+</span><span class="st"> </span>y</a></code></pre></div>
+<ul>
+<li class="fragment"><a href="https://github.com/r-lib/rlang/pull/328">2k+ lines of code in rlang</a></li>
+<li class="fragment"><a href="https://github.com/jimhester/altparsers/commit/19de1acc1728dfe3cc1014c5c68d7659143c72dd">12 line change to add to parser</a></li>
+</ul>
+</section>
+<section id="s-expression-parser" class="slide level2">
+<h2>S-expression parser</h2>
+<ul>
+<li class="fragment"><em>very</em> simple POC</li>
+<li class="fragment">demonstrates use of non-native parsers</li>
+</ul>
+<div class="fragment">
+<div class="sourceCode" id="cb10"><pre class="sourceCode lisp"><code class="sourceCode commonlisp"><a class="sourceLine" id="cb10-1" data-line-number="1">(<span class="op">+</span> <span class="dv">1</span> (<span class="op">*</span> <span class="dv">2</span> <span class="dv">3</span>))</a></code></pre></div>
+</div>
+</section>
+<section id="interactive-use" class="slide level2">
+<h2>Interactive use</h2>
+<ul>
+<li class="fragment">Loosely based on Ross Ihaka’s <a href="https://www.stat.auckland.ac.nz/~ihaka/software/R-script/R-script.html">R-script</a></li>
+<li class="fragment"><code>repl()</code> function used to start REPL with new parser
+<ul>
+<li class="fragment"><code>repl(parse_text)</code></li>
+<li class="fragment"><code>repl(tidy_parse_text)</code></li>
+<li class="fragment"><code>repl(sexp_parse_text)</code></li>
+</ul></li>
+<li class="fragment"><code>q()</code> used to exit</li>
+</ul>
+</section>
+<section id="package-use" class="slide level2">
+<h2>Package use</h2>
+<ul>
+<li class="fragment">Scripts - <code>inst/*</code></li>
+<li class="fragment"><code>altparsers::src()</code> to load scripts with parser</li>
+<li class="fragment">export / document as normal</li>
+</ul>
+<div class="fragment">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">.onLoad &lt;-<span class="st"> </span><span class="cf">function</span>(...) {</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">  altparsers<span class="op">::</span><span class="kw">src</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">&quot;ex&quot;</span>, <span class="st">&quot;sexp&quot;</span>),</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">                  <span class="dt">package =</span> <span class="st">&quot;ex&quot;</span>,</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">                  altparsers<span class="op">::</span>sexp_parse_file)</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">  </a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">  altparsers<span class="op">::</span><span class="kw">src</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">&quot;ex&quot;</span>, <span class="st">&quot;tidy&quot;</span>),</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">                  <span class="dt">package =</span> <span class="st">&quot;ex&quot;</span>,</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">                  altparsers<span class="op">::</span>tidy_parse_file)</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">}</a></code></pre></div>
+</div>
+</section>
+<section id="demo" class="slide level2">
+<h2>Demo</h2>
+</section>
+<section id="altparsers-package-1" class="slide level2">
+<h2><a href="https://github.com/jimhester/altparsers">altparsers package</a></h2>
+<ul>
+<li class="fragment"><code>altparsers::src()</code></li>
+<li class="fragment"><code>altparsers::repl()</code></li>
+<li class="fragment">Experiment with parsers in packages</li>
+<li class="fragment">Parsers just simple examples
+<ul>
+<li class="fragment">More complicated/useful features possible</li>
+</ul></li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="2018_07_09-Altparsers_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="2018_07_09-Altparsers_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: '100%',
+        height: '100%',
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '2018_07_09-Altparsers_files/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
