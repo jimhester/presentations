@@ -107,7 +107,7 @@ list(1, 2, 3, list(4, 5, 6))
 
 ## tidy parser
 
-- Just POC, no current plans to use widely
+- No plans to use widely
 - Based on R bison parser
 - Many features from previous talk
   - raw strings: <pre><code>grepl(r"\w+")</code></pre>
