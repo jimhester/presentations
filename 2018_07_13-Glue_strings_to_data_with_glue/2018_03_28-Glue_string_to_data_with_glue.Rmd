@@ -8,18 +8,18 @@ output:
     center: true
     smart: false
     includes:
-      before_body: "footer.html"
+      after_body: "footer.html"
 ---
 
 ---
-<h2>Glue strings to data with <img data-src="glue-cv1.png" height = "200em" style="vertical-align: middle; border: none; box-shadow: none"></h2>
+<h2>Glue strings to data with <img class = 'logo' data-src="glue-cv1.png" style="height:4em;"></h2>
 
 <p>Jim Hester <img data-src='https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-Blue-Gray.png' class = 'logo'></p>
 <br />
 <br />
 <br />
 `r icon::fa("twitter")` [\@jimhester_](https://twitter.com/jimhester_) <br />
-`r icon::fa("github")` [\@jimhester](https://github.com/jimhester) <br />
+`r icon::fa("github")` [jimhester](https://github.com/jimhester) <br />
 `r icon::fa("envelope")` [jim.hester@rstudio.com](mailto:jim.hester@rstudio.com) <br />
 <br />
 
@@ -75,7 +75,7 @@ if (!file.exists(file)) {
   stop("'", file, "' not found")
 }
 ```
-## **glue** makes Gluing strings easy!
+## **glue** makes gluing strings easy!
 
 ```{r, eval = require("glue")}
 apples <- 3
@@ -87,27 +87,50 @@ glue("
   Total: {apples + bananas}")
 ```
 
-## **glue** is for users
+## **glue** is convienent
 
 ```{r}
-library(dplyr)
-mtcars %>%
-  group_by(cyl) %>%
-  summarize(
-    description = glue("{avg} horsepower (sd={sd} n={n})",
-                       
-    avg = formatC(mean(hp),
-                  digits = 2, format = "f"),
- 
-    sd = format(sd(hp),
-                digits = 2),
-    
-    n = n()))
+if (TRUE) {
+  glue("
+    You can indent naturally \\
+    and break up long lines \\
+    if needed.
+    ")
+}
+```
+
+## **glue** is safe
+
+```{r}
+glue("{1:3} will recycle with a length of 1 {letters[1]}")
+```
+```{r}
+glue("{1:3} will recycle with the same length {letters[1:3]}")
+```
+```{r, error = TRUE}
+glue("{1:3} will not recycle with inconsistent length {letters[1:2]}")
+```
+
+## **glue** handles missings
+
+```{r include = FALSE}
+footies <- data.frame(
+  first = c("Tim", "Harry", "Mark"),
+  middle = c("Filiga", NA, NA),
+  last = c("Cahill", "Kewell", "Schwarzer"))
+```
+
+```{r}
+footies %>% mutate(glue("{first} {middle} {last}")) %>% pull()
+
+footies %>% mutate(glue("{first} {middle} {last}", .na = NULL)) %>% pull()
+
+footies %>% mutate(glue("{first} {middle} {last}", .na = "")) %>% pull()
 ```
 
 ## **glue** is for packages
 
-- Zero dependencies, Tested to R 3.1
+- Zero dependencies, tested to R 3.1
 - Customizable
 - Fast
 
@@ -131,12 +154,12 @@ if (actual != expected) {
 ## `.open` and `.close` change delimiters
 
 ```{r}
-jlue <- function(..., .envir = parent.frame()) {
+j_glue <- function(..., .envir = parent.frame()) {
   glue(..., .open = "<", .close = ">", .envir = .envir)
 }
 
 apples <- 1; bananas <- 2
-json <- jlue('
+json <- j_glue('
 {
   "fruits": {
     "apples": <apples>,
@@ -217,6 +240,12 @@ glue_ji("Many :hands*: make :light: :work:")
 
 # **glue** is fast
 
+## Types of speed
+
+- Speed of writing
+- Speed of recall
+- Speed of execution
+
 ## **glue** is fast on single strings
 
 ```r
@@ -247,7 +276,8 @@ glue("foo{bar}")
 
 ```{r}
 library(magrittr)
-head(mtcars) %>% glue_data("{rownames(.)} has {cyl} cylinders and {hp}hp")
+head(mtcars) %>% 
+  glue_data("{rownames(.)} has {cyl} cylinders and {hp}hp")
 ```
 
 ## `glue_collapse()` collapses vectors
@@ -262,19 +292,30 @@ glue_collapse(backtick(1:10), sep = ", ", last = " and ")
 ```{r}
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 tbl <- DBI::Id(schema = "xyz", table = "iris")
-glue_sql("SELECT * FROM {`tbl`} WHERE species IN ({vals*})",
-       vals = c("setosa", "versicolor"), .con = con)
+
+glue_sql(
+  "SELECT * FROM {`tbl`} WHERE species IN ({vals*})",
+  vals = c("setosa", "versicolor"), .con = con)
+```
+
+## `str_glue()` is in  <img data-src='tidyverse.svg' style="height:4em;" class = 'logo'> ##
+
+```{r, message = FALSE, warning = FALSE}
+library(tidyverse)
+str_glue("
+  glue version: {packageVersion('glue')}
+  tidyverse version: {packageVersion('tidyverse')}
+  ")
 ```
 
 # **glue** is popular???
 
 ----
 
-<a href = "https://www.rdocumentation.org/trends"><img src = "glue_rdocumentation.png"></a>
+-  60 reverse dependencies
 
-#### dplyr, stringr, tidyr dependency, maybe already installed
-
-### Weekly downloads ![blah](https://cranlogs.r-pkg.org/badges/last-week/glue)
+-  Monthly downloads ![blah](https://cranlogs.r-pkg.org/badges/last-month/glue)
+- dplyr, stringr, tidyr dependency, maybe already installed
 
 ----
 
@@ -288,3 +329,10 @@ adjective <-  c("luminous", "stylish", "super", "striking",
 
 glue("Have a {sample(adjective, 1)} day!")
 ```
+
+<br />
+<br />
+<br />
+`r icon::fa("twitter")` [\@jimhester_](https://twitter.com/jimhester_) &nbsp;
+`r icon::fa("github")` [jimhester](https://github.com/jimhester) &nbsp;
+`r icon::fa("envelope")` [jim.hester@rstudio.com](mailto:jim.hester@rstudio.com)
