@@ -1,0 +1,84 @@
+---
+title: "R Notebook - dplyr"
+output: html_notebook
+---
+
+```{r}
+library(dplyr)
+filter <- dplyr::filter
+
+mtcars %>% 
+  group_by(cyl) %>%
+  summarise(
+    hp = mean(hp),
+    n = n()
+  ) %>%
+  arrange(desc(hp)) %>%
+  filter(n > 5)
+```
+
+```{r}
+con <- DBI::dbConnect(RSQLite::SQLite(), path = ":memory:")
+
+copy_to(con, mtcars, "mtcars")
+
+mtcars_db <- tbl(con, "mtcars")
+
+mtcars_db %>% 
+  group_by(cyl) %>%
+  summarise(
+    hp = mean(hp, na.rm = TRUE),
+    n = n()
+  ) %>%
+  arrange(desc(hp)) %>%
+  filter(n > 5) %>% show_query()
+```
+
+```{r}
+mtcars %>% group_by(cyl) %>% summarise(mean = mean(hp))
+
+mtcars %>% group_by(gear) %>% summarise(mean = mean(wt))
+
+mtcars %>% group_by(carb) %>% summarise(mean = mean(qsec))
+```
+
+```{r}
+grouped_mean <- function(data, group_var, summary_var) {
+  data %>%
+    group_by(group_var) %>%
+    summarise(mean = mean(summary_var))
+}
+
+grouped_mean(mtcars, cyl, mpg)
+
+lobstr::ast(
+  data %>%
+    group_by(group_var) %>%
+    summarise(mean = mean(summary_var))
+)
+```
+
+```{r}
+group_var <- quote(cyl)
+summary_var <- quote(mpg)
+
+lobstr::ast(
+  data %>%
+    group_by(!!group_var) %>%
+    summarise(mean = mean(!!summary_var))
+)
+```
+
+```{r}
+grouped_mean <- function(data, group_var, summary_var) {
+  group_var <- enquo(group_var)
+  summary_var <- enquo(summary_var)
+  data %>%
+    group_by(!!group_var) %>%
+    summarise(mean = mean(!!summary_var))
+}
+
+grouped_mean(mtcars, cyl, mpg)
+grouped_mean(mtcars, gear, wt)
+grouped_mean(mtcars, carb, qsec)
+```

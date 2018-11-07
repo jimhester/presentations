@@ -1,0 +1,57 @@
+---
+title: "R Notebook - Extending R - SPLASH-I"
+output: html_notebook
+---
+
+```{r}
+1
+
+1[1]
+
+TRUE[1]
+
+1:5
+
+(1:5 + 1) / 2
+```
+
+```{r}
+x <- letters[1:4]
+
+x
+
+toupper("a")
+paste0("a", ":", toupper("a"))
+
+paste0(x, ":", toupper(x))
+```
+
+```{r}
+?mtcars
+View(mtcars)
+```
+
+```{r}
+mod <- lm(mpg ~ hp + wt, mtcars)
+mod
+summary(mod)
+plot(mod)
+```
+
+```{r}
+plot(mtcars$mpg, mtcars$hp)
+
+with(mtcars,
+  plot(mpg, hp)
+)
+```
+
+```{r}
+library(ggplot2)
+mtcars$model <- rownames(mtcars)
+
+ggplot(mtcars, aes(x = hp, y = qsec, color = mpg, label = model)) +
+  geom_point() +
+  geom_text(check_overlap = TRUE, nudge_x = 50, nudge_y = -1) +
+  facet_grid(rows = vars(cyl), cols = vars(gear), labeller = label_both)
+```
